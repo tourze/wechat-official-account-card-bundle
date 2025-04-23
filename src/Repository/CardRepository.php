@@ -4,7 +4,6 @@ namespace WechatOfficialAccountCardBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use DoctrineEnhanceBundle\Repository\CommonRepositoryAware;
 use WechatOfficialAccountCardBundle\Entity\Card;
 
 /**
@@ -15,8 +14,6 @@ use WechatOfficialAccountCardBundle\Entity\Card;
  */
 class CardRepository extends ServiceEntityRepository
 {
-    use CommonRepositoryAware;
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Card::class);
