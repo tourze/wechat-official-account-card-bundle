@@ -4,7 +4,6 @@ namespace WechatOfficialAccountCardBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use DoctrineEnhanceBundle\Traits\PrimaryKeyAware;
 use DoctrineEnhanceBundle\Traits\TimestampableAware;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Tourze\DoctrineIndexedBundle\Attribute\IndexColumn;
@@ -18,7 +17,17 @@ use Tourze\EasyAdmin\Attribute\Filter\Filterable;
 #[ORM\Table(name: 'woa_card_code')]
 class CardCode
 {
-    use PrimaryKeyAware;
+    #[ListColumn(order: -1)]
+    #[ExportColumn]
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
+    private ?int $id = 0;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     #[ORM\ManyToOne(targetEntity: Card::class)]
     #[ORM\JoinColumn(nullable: false)]
