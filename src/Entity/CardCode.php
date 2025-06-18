@@ -5,16 +5,12 @@ namespace WechatOfficialAccountCardBundle\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'woa_card_code')]
-class CardCode
+#[ORM\Table(name: 'woa_card_code', options: ['comment' => '微信卡券code'])]
+class CardCode implements \Stringable
 {
     use TimestampableAware;
-    #[ListColumn(order: -1)]
-    #[ExportColumn]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
@@ -29,20 +25,20 @@ class CardCode
     #[ORM\JoinColumn(nullable: false)]
     private Card $card;
 
-    #[ORM\Column(type: 'string', length: 50, options: ['comment' => '卡券code'])]
+    #[ORM\Column(type: Types::STRING, length: 50, options: ['comment' => '卡券code'])]
     private string $code;
 
-    #[ORM\Column(type: 'boolean', options: ['comment' => '是否已使用'])]
+    #[ORM\Column(type: Types::BOOLEAN, options: ['comment' => '是否已使用'])]
     private bool $isUsed = false;
 
-    #[ORM\Column(type: 'datetime', nullable: true, options: ['comment' => '使用时间'])]
-    private ?\DateTimeInterface $usedAt = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '使用时间'])]
+    private ?\DateTimeImmutable $usedAt = null;
 
-    #[ORM\Column(type: 'boolean', options: ['comment' => '是否已失效'])]
+    #[ORM\Column(type: Types::BOOLEAN, options: ['comment' => '是否已失效'])]
     private bool $isUnavailable = false;
 
-    #[ORM\Column(type: 'datetime', nullable: true, options: ['comment' => '失效时间'])]
-    private ?\DateTimeInterface $unavailableAt = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '失效时间'])]
+    private ?\DateTimeImmutable $unavailableAt = null;
 
     public function getCard(): Card
     {
@@ -73,16 +69,16 @@ class CardCode
     {
         $this->isUsed = $isUsed;
         if ($isUsed) {
-            $this->usedAt = new \DateTime();
+            $this->usedAt = new \DateTimeImmutable();
         }
     }
 
-    public function getUsedAt(): ?\DateTimeInterface
+    public function getUsedAt(): ?\DateTimeImmutable
     {
         return $this->usedAt;
     }
 
-    public function setUsedAt(?\DateTimeInterface $usedAt): void
+    public function setUsedAt(?\DateTimeImmutable $usedAt): void
     {
         $this->usedAt = $usedAt;
     }
@@ -96,18 +92,22 @@ class CardCode
     {
         $this->isUnavailable = $isUnavailable;
         if ($isUnavailable) {
-            $this->unavailableAt = new \DateTime();
+            $this->unavailableAt = new \DateTimeImmutable();
         }
     }
 
-    public function getUnavailableAt(): ?\DateTimeInterface
+    public function getUnavailableAt(): ?\DateTimeImmutable
     {
         return $this->unavailableAt;
     }
 
-    public function setUnavailableAt(?\DateTimeInterface $unavailableAt): void
+    public function setUnavailableAt(?\DateTimeImmutable $unavailableAt): void
     {
         $this->unavailableAt = $unavailableAt;
     }
 
+    public function __toString(): string
+    {
+        return $this->code ?? 'New CardCode';
+    }
 }

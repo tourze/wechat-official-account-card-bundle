@@ -23,6 +23,7 @@ use WechatOfficialAccountCardBundle\Request\Basic\GetDetailRequest;
 )]
 class SyncCardCommand extends Command
 {
+    public const NAME = 'wechat:card:sync';
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly AccountRepository $accountRepository,

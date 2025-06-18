@@ -7,8 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineSnowflakeBundle\Service\SnowflakeIdGenerator;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use Tourze\DoctrineUserBundle\Traits\BlameableAware;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
 use WechatOfficialAccountBundle\Entity\Account;
 use WechatOfficialAccountCardBundle\Entity\Embed\CardBaseInfo;
 use WechatOfficialAccountCardBundle\Enum\CardStatus;
@@ -16,15 +14,13 @@ use WechatOfficialAccountCardBundle\Enum\CardType;
 use WechatOfficialAccountCardBundle\Repository\CardRepository;
 
 #[ORM\Entity(repositoryClass: CardRepository::class)]
-#[ORM\Table(name: 'woa_card')]
+#[ORM\Table(name: 'woa_card', options: ['comment' => '微信卡券'])]
 #[ORM\Index(columns: ['card_id'], name: 'idx_card_id')]
 #[ORM\Index(columns: ['account_id'], name: 'idx_account_id')]
-class Card
+class Card implements \Stringable
 {
     use TimestampableAware;
     use BlameableAware;
-    #[ExportColumn]
-    #[ListColumn(order: -1, sorter: true)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(SnowflakeIdGenerator::class)]
@@ -118,4 +114,8 @@ class Card
         $this->baseInfo = $baseInfo;
     }
 
+    public function __toString(): string
+    {
+        return $this->cardId ?? 'New Card';
+    }
 }

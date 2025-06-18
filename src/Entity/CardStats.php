@@ -5,16 +5,12 @@ namespace WechatOfficialAccountCardBundle\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
-use Tourze\EasyAdmin\Attribute\Column\ExportColumn;
-use Tourze\EasyAdmin\Attribute\Column\ListColumn;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'woa_card_stats')]
-class CardStats
+#[ORM\Table(name: 'woa_card_stats', options: ['comment' => '微信卡券统计数据'])]
+class CardStats implements \Stringable
 {
     use TimestampableAware;
-    #[ListColumn(order: -1)]
-    #[ExportColumn]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
@@ -29,28 +25,28 @@ class CardStats
     #[ORM\JoinColumn(nullable: false)]
     private Card $card;
 
-    #[ORM\Column(type: 'date', options: ['comment' => '统计日期'])]
-    private \DateTimeInterface $statsDate;
+    #[ORM\Column(type: Types::DATE_IMMUTABLE, options: ['comment' => '统计日期'])]
+    private \DateTimeImmutable $statsDate;
 
-    #[ORM\Column(type: 'integer', options: ['comment' => '领取次数'])]
+    #[ORM\Column(type: Types::INTEGER, options: ['comment' => '领取次数'])]
     private int $receiveCount = 0;
 
-    #[ORM\Column(type: 'integer', options: ['comment' => '使用次数'])]
+    #[ORM\Column(type: Types::INTEGER, options: ['comment' => '使用次数'])]
     private int $useCount = 0;
 
-    #[ORM\Column(type: 'integer', options: ['comment' => '转赠次数'])]
+    #[ORM\Column(type: Types::INTEGER, options: ['comment' => '转赠次数'])]
     private int $giveCount = 0;
 
-    #[ORM\Column(type: 'integer', options: ['comment' => '浏览次数'])]
+    #[ORM\Column(type: Types::INTEGER, options: ['comment' => '浏览次数'])]
     private int $viewCount = 0;
 
-    #[ORM\Column(type: 'integer', options: ['comment' => '新增关注数'])]
+    #[ORM\Column(type: Types::INTEGER, options: ['comment' => '新增关注数'])]
     private int $newFollowCount = 0;
 
-    #[ORM\Column(type: 'integer', options: ['comment' => '取消关注数'])]
+    #[ORM\Column(type: Types::INTEGER, options: ['comment' => '取消关注数'])]
     private int $unfollowCount = 0;
 
-    #[ORM\Column(type: 'integer', options: ['comment' => '转赠领取数'])]
+    #[ORM\Column(type: Types::INTEGER, options: ['comment' => '转赠领取数'])]
     private int $giveReceiveCount = 0;
 
     public function getCard(): Card
@@ -63,12 +59,12 @@ class CardStats
         $this->card = $card;
     }
 
-    public function getStatsDate(): \DateTimeInterface
+    public function getStatsDate(): \DateTimeImmutable
     {
         return $this->statsDate;
     }
 
-    public function setStatsDate(\DateTimeInterface $statsDate): void
+    public function setStatsDate(\DateTimeImmutable $statsDate): void
     {
         $this->statsDate = $statsDate;
     }
@@ -143,4 +139,8 @@ class CardStats
         $this->giveReceiveCount = $giveReceiveCount;
     }
 
+    public function __toString(): string
+    {
+        return $this->statsDate->format('Y-m-d') . ' - ' . $this->card->getCardId();
+    }
 }

@@ -2,8 +2,16 @@
 
 namespace WechatOfficialAccountCardBundle\Enum;
 
-enum CardStatus: string
+use Tourze\EnumExtra\Itemable;
+use Tourze\EnumExtra\ItemTrait;
+use Tourze\EnumExtra\Labelable;
+use Tourze\EnumExtra\Selectable;
+use Tourze\EnumExtra\SelectTrait;
+
+enum CardStatus: string implements Itemable, Labelable, Selectable
 {
+    use ItemTrait;
+    use SelectTrait;
     /**
      * 待审核
      */
@@ -28,4 +36,15 @@ enum CardStatus: string
      * 已投放
      */
     case DISPATCH = 'CARD_STATUS_DISPATCH';
+
+    public function getLabel(): string
+    {
+        return match ($this) {
+            self::NOT_VERIFY => '待审核',
+            self::VERIFY_FAIL => '审核失败',
+            self::VERIFY_OK => '通过审核',
+            self::DELETE => '已删除',
+            self::DISPATCH => '已投放',
+        };
+    }
 }
