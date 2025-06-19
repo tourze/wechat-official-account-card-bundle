@@ -18,7 +18,7 @@ use WechatOfficialAccountCardBundle\Request\Basic\BatchGetListRequest;
 use WechatOfficialAccountCardBundle\Request\Basic\GetDetailRequest;
 
 #[AsCommand(
-    name: 'wechat:card:sync',
+    name: self::NAME,
     description: '同步微信卡券信息',
 )]
 class SyncCardCommand extends Command
