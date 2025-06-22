@@ -23,7 +23,9 @@ class CardRepositoryTest extends TestCase
         $parameters = $constructor->getParameters();
         $this->assertCount(1, $parameters);
         $this->assertEquals('registry', $parameters[0]->getName());
-        $this->assertEquals('Doctrine\Persistence\ManagerRegistry', $parameters[0]->getType()->getName());
+        $type = $parameters[0]->getType();
+        $this->assertInstanceOf(\ReflectionNamedType::class, $type);
+        $this->assertEquals('Doctrine\Persistence\ManagerRegistry', $type->getName());
     }
     
     public function testEntityType(): void

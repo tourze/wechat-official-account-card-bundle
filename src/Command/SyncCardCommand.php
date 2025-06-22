@@ -74,7 +74,7 @@ class SyncCardCommand extends Command
                     $baseInfo = $typeInfo['base_info'];
 
                     // 设置或创建 CardBaseInfo
-                    if (!$card->getBaseInfo()) {
+                    if ($card->getBaseInfo() === null) {
                         $card->setBaseInfo(new CardBaseInfo());
                     }
 
@@ -93,7 +93,7 @@ class SyncCardCommand extends Command
                         ->setCanGiveFriend($baseInfo['can_give_friend']);
 
                     // 设置或创建 CardDateInfo
-                    if (!$card->getBaseInfo()->getDateInfo()) {
+                    if ($card->getBaseInfo()->getDateInfo() === null) {
                         $card->getBaseInfo()->setDateInfo(new CardDateInfo());
                     }
 
@@ -106,7 +106,7 @@ class SyncCardCommand extends Command
                         ->setFixedTerm($dateInfo['fixed_term'] ?? null)
                         ->setFixedBeginTerm($dateInfo['fixed_begin_term'] ?? null);
 
-                    if (!$card->getId()) {
+                    if ($card->getId() === null) {
                         $this->entityManager->persist($card);
                     }
                 }

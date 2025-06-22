@@ -32,7 +32,7 @@ class GetUserCardListRequest extends WithAccountRequest
             'openid' => $this->getOpenId(),
         ];
 
-        if ($this->getCardId()) {
+        if ($this->getCardId() !== null) {
             $data['card_id'] = $this->getCardId();
         }
 

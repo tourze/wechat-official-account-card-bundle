@@ -32,7 +32,7 @@ class UnavailableCardRequest extends WithAccountRequest
             'code' => $this->getCode(),
         ];
 
-        if ($this->getCardId()) {
+        if ($this->getCardId() !== null) {
             $data['card_id'] = $this->getCardId();
         }
 
