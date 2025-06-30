@@ -4,7 +4,7 @@ namespace WechatOfficialAccountCardBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Tourze\DoctrineSnowflakeBundle\Service\SnowflakeIdGenerator;
+use Tourze\DoctrineSnowflakeBundle\Traits\SnowflakeKeyAware;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 use Tourze\DoctrineUserBundle\Traits\BlameableAware;
 use WechatOfficialAccountBundle\Entity\Account;
@@ -21,11 +21,7 @@ class Card implements \Stringable
 {
     use TimestampableAware;
     use BlameableAware;
-    #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
-    #[ORM\CustomIdGenerator(SnowflakeIdGenerator::class)]
-    #[ORM\Column(type: Types::BIGINT, nullable: false, options: ['comment' => 'ID'])]
-    private ?string $id = null;
+    use SnowflakeKeyAware;
 
 
     #[ORM\ManyToOne(targetEntity: Account::class)]
@@ -46,10 +42,6 @@ class Card implements \Stringable
 
     private bool $syncing = false;
 
-    public function getId(): ?string
-    {
-        return $this->id;
-    }
 
 
     public function isSyncing(): bool

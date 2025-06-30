@@ -10,7 +10,7 @@ use WechatOfficialAccountBundle\Request\WithAccountRequest;
  *
  * @see https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Redeeming_a_coupon_voucher_or_card.html
  */
-class GetCardCodeRequest extends WithAccountRequest
+class GetCodeRequest extends WithAccountRequest
 {
     /**
      * @var string 卡券ID代表一类卡券。自定义code卡券必填。

@@ -10,7 +10,7 @@ use WechatOfficialAccountCardBundle\Enum\CardCondSource;
  *
  * @see https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#拉取卡券概况数据接口
  */
-class GetCardBizuinInfoRequest extends WithAccountRequest
+class GetBizuinInfoRequest extends WithAccountRequest
 {
     /**
      * @var \DateTimeInterface 查询数据的起始时间

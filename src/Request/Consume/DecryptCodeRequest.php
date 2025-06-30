@@ -12,7 +12,7 @@ use WechatOfficialAccountBundle\Request\WithAccountRequest;
  *
  * @see https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Redeeming_a_coupon_voucher_or_card.html#_2-2-Code解码接口
  */
-class DecryptCardCodeRequest extends WithAccountRequest
+class DecryptCodeRequest extends WithAccountRequest
 {
     /**
      * @var string 经过加密的Code码

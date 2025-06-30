@@ -9,7 +9,7 @@ use WechatOfficialAccountBundle\Request\WithAccountRequest;
  *
  * @see https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#拉取单张会员卡数据接口
  */
-class GetCardMemberCardDetailRequest extends WithAccountRequest
+class GetMemberCardDetailRequest extends WithAccountRequest
 {
     /**
      * @var \DateTimeInterface 查询数据的起始时间

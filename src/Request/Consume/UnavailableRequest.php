@@ -9,7 +9,7 @@ use WechatOfficialAccountBundle\Request\WithAccountRequest;
  *
  * @see https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#8
  */
-class UnavailableCardRequest extends WithAccountRequest
+class UnavailableRequest extends WithAccountRequest
 {
     /**
      * @var string 需要设置为失效的code序列号

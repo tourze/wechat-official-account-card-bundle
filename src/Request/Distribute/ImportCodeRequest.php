@@ -3,6 +3,7 @@
 namespace WechatOfficialAccountCardBundle\Request\Distribute;
 
 use WechatOfficialAccountBundle\Request\WithAccountRequest;
+use WechatOfficialAccountCardBundle\Exception\CodeListExceededException;
 
 /**
  * 导入code接口
@@ -11,7 +12,7 @@ use WechatOfficialAccountBundle\Request\WithAccountRequest;
  *
  * @see https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Distributing_Coupons_Vouchers_and_Cards.html#_4-1-导入自定义code-仅对自定义code商户
  */
-class ImportCardCodeRequest extends WithAccountRequest
+class ImportCodeRequest extends WithAccountRequest
 {
     /**
      * @var string 需要进行导入code的卡券ID
@@ -62,7 +63,7 @@ class ImportCardCodeRequest extends WithAccountRequest
     public function setCodeList(array $codeList): void
     {
         if (count($codeList) > 100) {
-            throw new \InvalidArgumentException('Code list cannot exceed 100 items');
+            throw new CodeListExceededException(100, count($codeList));
         }
         $this->codeList = $codeList;
     }
@@ -70,7 +71,7 @@ class ImportCardCodeRequest extends WithAccountRequest
     public function addCode(string $code): void
     {
         if (count($this->codeList) >= 100) {
-            throw new \InvalidArgumentException('Code list cannot exceed 100 items');
+            throw new CodeListExceededException(100, count($this->codeList) + 1);
         }
         $this->codeList[] = $code;
     }

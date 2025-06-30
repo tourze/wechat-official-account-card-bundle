@@ -9,7 +9,7 @@ use WechatOfficialAccountBundle\Request\WithAccountRequest;
  *
  * @see https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#6
  */
-class UpdateCardCodeRequest extends WithAccountRequest
+class UpdateCodeRequest extends WithAccountRequest
 {
     /**
      * @var string 需要改变的code序列号

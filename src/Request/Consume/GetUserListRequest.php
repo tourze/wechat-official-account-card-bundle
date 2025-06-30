@@ -9,7 +9,7 @@ use WechatOfficialAccountBundle\Request\WithAccountRequest;
  *
  * @see https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Managing_Coupons_Vouchers_and_Cards.html#1
  */
-class GetUserCardListRequest extends WithAccountRequest
+class GetUserListRequest extends WithAccountRequest
 {
     /**
      * @var string 需要查询的用户openid

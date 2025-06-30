@@ -9,7 +9,7 @@ use WechatOfficialAccountBundle\Request\WithAccountRequest;
  *
  * @see https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Distributing_Coupons_Vouchers_and_Cards.html#_4-1-导入自定义code-仅对自定义code商户
  */
-class GetCardCodeDepositCountRequest extends WithAccountRequest
+class GetCodeDepositCountRequest extends WithAccountRequest
 {
     /**
      * @var string 进行导入code的卡券ID

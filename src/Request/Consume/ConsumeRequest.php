@@ -9,7 +9,7 @@ use WechatOfficialAccountBundle\Request\WithAccountRequest;
  *
  * @see https://developers.weixin.qq.com/doc/offiaccount/Cards_and_Offer/Redeeming_a_coupon_voucher_or_card.html#_1-2-核销Code接口
  */
-class ConsumeCardRequest extends WithAccountRequest
+class ConsumeRequest extends WithAccountRequest
 {
     /**
      * @var string 需核销的Code码
