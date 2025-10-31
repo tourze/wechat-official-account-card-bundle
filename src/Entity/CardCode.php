@@ -4,6 +4,7 @@ namespace WechatOfficialAccountCardBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 
 #[ORM\Entity]
@@ -11,12 +12,13 @@ use Tourze\DoctrineTimestampBundle\Traits\TimestampableAware;
 class CardCode implements \Stringable
 {
     use TimestampableAware;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER, options: ['comment' => 'ID'])]
-    private ?int $id = 0;
+    private int $id = 0;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -26,18 +28,24 @@ class CardCode implements \Stringable
     private Card $card;
 
     #[ORM\Column(type: Types::STRING, length: 50, options: ['comment' => '卡券code'])]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 50)]
     private string $code;
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['comment' => '是否已使用'])]
+    #[Assert\Type(type: 'bool')]
     private bool $isUsed = false;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '使用时间'])]
+    #[Assert\Type(type: '\DateTimeImmutable')]
     private ?\DateTimeImmutable $usedAt = null;
 
     #[ORM\Column(type: Types::BOOLEAN, options: ['comment' => '是否已失效'])]
+    #[Assert\Type(type: 'bool')]
     private bool $isUnavailable = false;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['comment' => '失效时间'])]
+    #[Assert\Type(type: '\DateTimeImmutable')]
     private ?\DateTimeImmutable $unavailableAt = null;
 
     public function getCard(): Card

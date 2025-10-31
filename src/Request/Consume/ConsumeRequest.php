@@ -26,13 +26,16 @@ class ConsumeRequest extends WithAccountRequest
         return 'https://api.weixin.qq.com/card/code/consume';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         $data = [
             'code' => $this->getCode(),
         ];
 
-        if ($this->getCardId() !== null) {
+        if (null !== $this->getCardId()) {
             $data['card_id'] = $this->getCardId();
         }
 

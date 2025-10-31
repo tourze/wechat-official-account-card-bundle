@@ -21,6 +21,9 @@ class GetCodeDepositCountRequest extends WithAccountRequest
         return 'https://api.weixin.qq.com/card/code/getdepositcount';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         return [

@@ -4,18 +4,35 @@ namespace WechatOfficialAccountCardBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Tourze\PHPUnitSymfonyKernelTest\Attribute\AsRepository;
 use WechatOfficialAccountCardBundle\Entity\CardReceive;
 
 /**
- * @method CardReceive|null find($id, $lockMode = null, $lockVersion = null)
- * @method CardReceive|null findOneBy(array $criteria, array $orderBy = null)
- * @method CardReceive[]    findAll()
- * @method CardReceive[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<CardReceive>
  */
+#[AsRepository(entityClass: CardReceive::class)]
 class CardReceiveRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, CardReceive::class);
+    }
+
+    public function save(CardReceive $entity, bool $flush = true): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(CardReceive $entity, bool $flush = true): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 }

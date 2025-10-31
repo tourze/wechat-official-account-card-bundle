@@ -2,6 +2,7 @@
 
 namespace WechatOfficialAccountCardBundle\Tests\Entity\Embed;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use WechatOfficialAccountCardBundle\Entity\Embed\CardBaseInfo;
 use WechatOfficialAccountCardBundle\Entity\Embed\CardDateInfo;
@@ -9,15 +10,19 @@ use WechatOfficialAccountCardBundle\Enum\CardColor;
 use WechatOfficialAccountCardBundle\Enum\CodeType;
 use WechatOfficialAccountCardBundle\Enum\DateType;
 
-class CardBaseInfoTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(CardBaseInfo::class)]
+final class CardBaseInfoTest extends TestCase
 {
     private CardBaseInfo $baseInfo;
+
     private CardDateInfo $dateInfo;
 
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->dateInfo = new CardDateInfo();
         $this->dateInfo->setType(DateType::DATE_TYPE_FIX_TIME_RANGE);
         $this->dateInfo->setBeginTimestamp(time());
@@ -123,19 +128,34 @@ class CardBaseInfoTest extends TestCase
         $this->assertNull($baseInfo->getServicePhone());
     }
 
-    public function testFluidInterfaces(): void
+    public function testSetterMethods(): void
     {
         $baseInfo = new CardBaseInfo();
 
-        // 测试流畅接口
-        $this->assertSame($baseInfo, $baseInfo->setLogoUrl('https://example.com/logo.png'));
-        $this->assertSame($baseInfo, $baseInfo->setBrandName('测试品牌'));
-        $this->assertSame($baseInfo, $baseInfo->setTitle('测试卡券'));
-        $this->assertSame($baseInfo, $baseInfo->setNotice('使用提醒'));
-        $this->assertSame($baseInfo, $baseInfo->setDescription('使用说明详情'));
-        $this->assertSame($baseInfo, $baseInfo->setCanShare(true));
-        $this->assertSame($baseInfo, $baseInfo->setCanGiveFriend(true));
-        $this->assertSame($baseInfo, $baseInfo->setServicePhone('13800138000'));
+        // 测试setter方法调用 - 这些方法返回void，不支持链式调用
+        $baseInfo->setLogoUrl('https://example.com/logo.png');
+        $this->assertEquals('https://example.com/logo.png', $baseInfo->getLogoUrl());
+
+        $baseInfo->setBrandName('测试品牌');
+        $this->assertEquals('测试品牌', $baseInfo->getBrandName());
+
+        $baseInfo->setTitle('测试卡券');
+        $this->assertEquals('测试卡券', $baseInfo->getTitle());
+
+        $baseInfo->setNotice('使用提醒');
+        $this->assertEquals('使用提醒', $baseInfo->getNotice());
+
+        $baseInfo->setDescription('使用说明详情');
+        $this->assertEquals('使用说明详情', $baseInfo->getDescription());
+
+        $baseInfo->setCanShare(true);
+        $this->assertTrue($baseInfo->isCanShare());
+
+        $baseInfo->setCanGiveFriend(true);
+        $this->assertTrue($baseInfo->isCanGiveFriend());
+
+        $baseInfo->setServicePhone('13800138000');
+        $this->assertEquals('13800138000', $baseInfo->getServicePhone());
     }
 
     public function testWithValidationBoundaries(): void

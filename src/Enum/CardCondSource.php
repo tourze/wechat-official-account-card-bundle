@@ -12,6 +12,7 @@ enum CardCondSource: int implements Itemable, Labelable, Selectable
 {
     use ItemTrait;
     use SelectTrait;
+
     case PLATFORM = 0;  // 公众平台创建的卡券数据
     case API = 1;       // API创建的卡券数据
 

@@ -21,6 +21,9 @@ class DeleteRequest extends WithAccountRequest
         return 'https://api.weixin.qq.com/card/delete';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         return [

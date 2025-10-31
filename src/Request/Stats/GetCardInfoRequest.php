@@ -37,6 +37,9 @@ class GetCardInfoRequest extends WithAccountRequest
         return 'https://api.weixin.qq.com/datacube/getcardcardinfo';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         return [

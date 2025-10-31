@@ -8,7 +8,7 @@ use WechatOfficialAccountCardBundle\Enum\DateType;
 #[ORM\Embeddable]
 class CardDateInfo
 {
-    #[ORM\Column(type: 'integer', enumType: DateType::class, options: ['comment' => '使用时间的类型'])]
+    #[ORM\Column(type: 'string', enumType: DateType::class, options: ['comment' => '使用时间的类型'])]
     private DateType $type = DateType::DATE_TYPE_FIX_TIME_RANGE;
 
     #[ORM\Column(type: 'integer', nullable: true, options: ['comment' => '起用时间'])]
@@ -28,11 +28,9 @@ class CardDateInfo
         return $this->type;
     }
 
-    public function setType(DateType $type): self
+    public function setType(DateType $type): void
     {
         $this->type = $type;
-
-        return $this;
     }
 
     public function getBeginTimestamp(): ?int
@@ -40,11 +38,9 @@ class CardDateInfo
         return $this->beginTimestamp;
     }
 
-    public function setBeginTimestamp(?int $beginTimestamp): self
+    public function setBeginTimestamp(?int $beginTimestamp): void
     {
         $this->beginTimestamp = $beginTimestamp;
-
-        return $this;
     }
 
     public function getEndTimestamp(): ?int
@@ -52,11 +48,9 @@ class CardDateInfo
         return $this->endTimestamp;
     }
 
-    public function setEndTimestamp(?int $endTimestamp): self
+    public function setEndTimestamp(?int $endTimestamp): void
     {
         $this->endTimestamp = $endTimestamp;
-
-        return $this;
     }
 
     public function getFixedTerm(): ?int
@@ -64,11 +58,9 @@ class CardDateInfo
         return $this->fixedTerm;
     }
 
-    public function setFixedTerm(?int $fixedTerm): self
+    public function setFixedTerm(?int $fixedTerm): void
     {
         $this->fixedTerm = $fixedTerm;
-
-        return $this;
     }
 
     public function getFixedBeginTerm(): ?int
@@ -76,10 +68,8 @@ class CardDateInfo
         return $this->fixedBeginTerm;
     }
 
-    public function setFixedBeginTerm(?int $fixedBeginTerm): self
+    public function setFixedBeginTerm(?int $fixedBeginTerm): void
     {
         $this->fixedBeginTerm = $fixedBeginTerm;
-
-        return $this;
     }
 }

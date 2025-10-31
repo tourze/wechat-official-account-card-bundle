@@ -2,16 +2,29 @@
 
 namespace WechatOfficialAccountCardBundle\Enum;
 
+use Tourze\EnumExtra\BadgeInterface;
 use Tourze\EnumExtra\Itemable;
 use Tourze\EnumExtra\ItemTrait;
 use Tourze\EnumExtra\Labelable;
 use Tourze\EnumExtra\Selectable;
 use Tourze\EnumExtra\SelectTrait;
 
-enum CardStatus: string implements Itemable, Labelable, Selectable
+enum CardStatus: string implements Itemable, Labelable, Selectable, BadgeInterface
 {
     use ItemTrait;
     use SelectTrait;
+
+    // BadgeInterface 常量定义
+    public const SUCCESS = 'success';
+    public const WARNING = 'warning';
+    public const DANGER = 'danger';
+    public const INFO = 'info';
+    public const PRIMARY = 'primary';
+    public const SECONDARY = 'secondary';
+    public const LIGHT = 'light';
+    public const DARK = 'dark';
+    public const OUTLINE = 'outline';
+
     /**
      * 待审核
      */
@@ -45,6 +58,17 @@ enum CardStatus: string implements Itemable, Labelable, Selectable
             self::VERIFY_OK => '通过审核',
             self::DELETE => '已删除',
             self::DISPATCH => '已投放',
+        };
+    }
+
+    public function getBadge(): string
+    {
+        return match ($this) {
+            self::NOT_VERIFY => self::WARNING,
+            self::VERIFY_FAIL => self::DANGER,
+            self::VERIFY_OK => self::SUCCESS,
+            self::DELETE => self::SECONDARY,
+            self::DISPATCH => self::PRIMARY,
         };
     }
 }

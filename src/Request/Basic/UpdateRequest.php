@@ -11,6 +11,9 @@ class UpdateRequest extends WithAccountRequest
 
     private CardType $cardType;
 
+    /**
+     * @var array<string, mixed>
+     */
     private array $baseInfo;
 
     public function getRequestPath(): string
@@ -18,6 +21,9 @@ class UpdateRequest extends WithAccountRequest
         return 'card/update';
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getRequestOptions(): array
     {
         return [
@@ -28,24 +34,21 @@ class UpdateRequest extends WithAccountRequest
         ];
     }
 
-    public function setCardId(string $cardId): self
+    public function setCardId(string $cardId): void
     {
         $this->cardId = $cardId;
-
-        return $this;
     }
 
-    public function setCardType(CardType $cardType): self
+    public function setCardType(CardType $cardType): void
     {
         $this->cardType = $cardType;
-
-        return $this;
     }
 
-    public function setBaseInfo(array $baseInfo): self
+    /**
+     * @param array<string, mixed> $baseInfo
+     */
+    public function setBaseInfo(array $baseInfo): void
     {
         $this->baseInfo = $baseInfo;
-
-        return $this;
     }
 }

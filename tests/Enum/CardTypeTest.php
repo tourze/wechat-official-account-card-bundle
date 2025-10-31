@@ -2,104 +2,101 @@
 
 namespace WechatOfficialAccountCardBundle\Tests\Enum;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\TestWith;
+use Tourze\PHPUnitEnum\AbstractEnumTestCase;
 use WechatOfficialAccountCardBundle\Enum\CardType;
 
-class CardTypeTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(CardType::class)]
+final class CardTypeTest extends AbstractEnumTestCase
 {
-    public function testCardTypeValues(): void
+    #[TestWith([CardType::GROUPON, 'GROUPON', '团购券'])]
+    #[TestWith([CardType::CASH, 'CASH', '代金券'])]
+    #[TestWith([CardType::DISCOUNT, 'DISCOUNT', '折扣券'])]
+    #[TestWith([CardType::GIFT, 'GIFT', '兑换券'])]
+    #[TestWith([CardType::GENERAL_COUPON, 'GENERAL_COUPON', '优惠券'])]
+    #[TestWith([CardType::MEMBER_CARD, 'MEMBER_CARD', '会员卡'])]
+    #[TestWith([CardType::SCENIC_TICKET, 'SCENIC_TICKET', '景点门票'])]
+    #[TestWith([CardType::MOVIE_TICKET, 'MOVIE_TICKET', '电影票'])]
+    #[TestWith([CardType::BOARDING_PASS, 'BOARDING_PASS', '飞机票'])]
+    #[TestWith([CardType::MEETING_TICKET, 'MEETING_TICKET', '会议门票'])]
+    #[TestWith([CardType::BUS_TICKET, 'BUS_TICKET', '汽车票'])]
+    public function testValueAndLabel(CardType $enum, string $expectedValue, string $expectedLabel): void
     {
-        // 测试所有枚举值是否有效
-        $this->assertEquals('GROUPON', CardType::GROUPON->value);
-        $this->assertEquals('CASH', CardType::CASH->value);
-        $this->assertEquals('DISCOUNT', CardType::DISCOUNT->value);
-        $this->assertEquals('GIFT', CardType::GIFT->value);
-        $this->assertEquals('GENERAL_COUPON', CardType::GENERAL_COUPON->value);
-        $this->assertEquals('MEMBER_CARD', CardType::MEMBER_CARD->value);
-        $this->assertEquals('SCENIC_TICKET', CardType::SCENIC_TICKET->value);
-        $this->assertEquals('MOVIE_TICKET', CardType::MOVIE_TICKET->value);
-        $this->assertEquals('BOARDING_PASS', CardType::BOARDING_PASS->value);
-        $this->assertEquals('MEETING_TICKET', CardType::MEETING_TICKET->value);
-        $this->assertEquals('BUS_TICKET', CardType::BUS_TICKET->value);
+        $this->assertEquals($expectedValue, $enum->value);
+        $this->assertEquals($expectedLabel, $enum->getLabel());
     }
-    
-    public function testCardTypeInstances(): void
+
+    #[TestWith(['GROUPON', CardType::GROUPON])]
+    #[TestWith(['CASH', CardType::CASH])]
+    #[TestWith(['DISCOUNT', CardType::DISCOUNT])]
+    #[TestWith(['GIFT', CardType::GIFT])]
+    #[TestWith(['GENERAL_COUPON', CardType::GENERAL_COUPON])]
+    #[TestWith(['MEMBER_CARD', CardType::MEMBER_CARD])]
+    #[TestWith(['SCENIC_TICKET', CardType::SCENIC_TICKET])]
+    #[TestWith(['MOVIE_TICKET', CardType::MOVIE_TICKET])]
+    #[TestWith(['BOARDING_PASS', CardType::BOARDING_PASS])]
+    #[TestWith(['MEETING_TICKET', CardType::MEETING_TICKET])]
+    #[TestWith(['BUS_TICKET', CardType::BUS_TICKET])]
+    public function testFromValidValue(string $value, CardType $expected): void
     {
-        // 测试枚举实例是否符合预期
-        $this->assertInstanceOf(CardType::class, CardType::GROUPON);
-        $this->assertInstanceOf(CardType::class, CardType::CASH);
-        $this->assertInstanceOf(CardType::class, CardType::DISCOUNT);
-        $this->assertInstanceOf(CardType::class, CardType::GIFT);
-        $this->assertInstanceOf(CardType::class, CardType::GENERAL_COUPON);
-        $this->assertInstanceOf(CardType::class, CardType::MEMBER_CARD);
-        $this->assertInstanceOf(CardType::class, CardType::SCENIC_TICKET);
-        $this->assertInstanceOf(CardType::class, CardType::MOVIE_TICKET);
-        $this->assertInstanceOf(CardType::class, CardType::BOARDING_PASS);
-        $this->assertInstanceOf(CardType::class, CardType::MEETING_TICKET);
-        $this->assertInstanceOf(CardType::class, CardType::BUS_TICKET);
+        $this->assertEquals($expected, CardType::from($value));
     }
-    
-    public function testCardTypeEquality(): void
+
+    #[TestWith(['INVALID_TYPE'])]
+    #[TestWith(['UNKNOWN_CARD'])]
+    #[TestWith(['NOT_VALID'])]
+    public function testFromInvalidValueThrowsException(string $invalidValue): void
     {
-        // 测试相同枚举值的实例是否相等
-        $this->assertEquals(CardType::CASH, CardType::CASH);
-        $this->assertEquals(CardType::DISCOUNT, CardType::DISCOUNT);
-        
-        // 测试不同枚举值的实例是否不相等
-        $this->assertNotEquals(CardType::CASH, CardType::DISCOUNT);
-        $this->assertNotEquals(CardType::GROUPON, CardType::GIFT);
-    }
-    
-    public function testCardTypeFromString(): void
-    {
-        // 测试从字符串创建枚举实例
-        $this->assertEquals(CardType::CASH, CardType::from('CASH'));
-        $this->assertEquals(CardType::DISCOUNT, CardType::from('DISCOUNT'));
-        $this->assertEquals(CardType::GIFT, CardType::from('GIFT'));
-        
-        // 测试无效字符串应抛出异常
         $this->expectException(\ValueError::class);
-        CardType::from('INVALID_TYPE');
+        CardType::from($invalidValue);
     }
-    
-    public function testCardTypeTryFrom(): void
+
+    #[TestWith(['CASH', CardType::CASH])]
+    #[TestWith(['DISCOUNT', CardType::DISCOUNT])]
+    #[TestWith(['GIFT', CardType::GIFT])]
+    public function testTryFromValidValue(string $value, CardType $expected): void
     {
-        // 测试从字符串尝试创建枚举实例
-        $this->assertEquals(CardType::CASH, CardType::tryFrom('CASH'));
-        $this->assertEquals(CardType::DISCOUNT, CardType::tryFrom('DISCOUNT'));
-        
-        // 测试无效字符串应返回null
-        $this->assertNull(CardType::tryFrom('INVALID_TYPE'));
+        $this->assertEquals($expected, CardType::tryFrom($value));
     }
-    
-    public function testCardTypeNames(): void
+
+    #[TestWith(['INVALID_TYPE'])]
+    #[TestWith(['UNKNOWN_CARD'])]
+    #[TestWith(['NOT_VALID'])]
+    public function testTryFromInvalidValueReturnsNull(string $invalidValue): void
     {
-        // 测试枚举名称
-        $this->assertEquals('GROUPON', CardType::GROUPON->name);
-        $this->assertEquals('CASH', CardType::CASH->name);
-        $this->assertEquals('DISCOUNT', CardType::DISCOUNT->name);
-        $this->assertEquals('GIFT', CardType::GIFT->name);
+        $this->assertNull(CardType::tryFrom($invalidValue));
     }
-    
-    public function testCardTypeCases(): void
+
+    public function testValueUniqueness(): void
     {
-        // 测试所有枚举用例
-        $cases = CardType::cases();
-        
-        $this->assertCount(11, $cases);
-        $this->assertContainsOnlyInstancesOf(CardType::class, $cases);
-        
-        // 验证是否包含所有枚举值
-        $this->assertContains(CardType::GROUPON, $cases);
-        $this->assertContains(CardType::CASH, $cases);
-        $this->assertContains(CardType::DISCOUNT, $cases);
-        $this->assertContains(CardType::GIFT, $cases);
-        $this->assertContains(CardType::GENERAL_COUPON, $cases);
-        $this->assertContains(CardType::MEMBER_CARD, $cases);
-        $this->assertContains(CardType::SCENIC_TICKET, $cases);
-        $this->assertContains(CardType::MOVIE_TICKET, $cases);
-        $this->assertContains(CardType::BOARDING_PASS, $cases);
-        $this->assertContains(CardType::MEETING_TICKET, $cases);
-        $this->assertContains(CardType::BUS_TICKET, $cases);
+        $values = array_map(fn (CardType $case) => $case->value, CardType::cases());
+        $this->assertCount(count(array_unique($values)), $values, 'All enum values must be unique');
     }
-} 
+
+    public function testLabelUniqueness(): void
+    {
+        $labels = array_map(fn (CardType $case) => $case->getLabel(), CardType::cases());
+        $uniqueLabels = array_unique($labels);
+        $this->assertCount(count($uniqueLabels), $labels, 'All enum labels must be unique');
+    }
+
+    public function testCasesCount(): void
+    {
+        $this->assertCount(11, CardType::cases());
+    }
+
+    public function testToArray(): void
+    {
+        $result = CardType::CASH->toArray();
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('value', $result);
+        $this->assertArrayHasKey('label', $result);
+        $this->assertEquals('CASH', $result['value']);
+        $this->assertEquals('代金券', $result['label']);
+    }
+}

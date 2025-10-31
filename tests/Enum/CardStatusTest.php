@@ -2,89 +2,88 @@
 
 namespace WechatOfficialAccountCardBundle\Tests\Enum;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\TestWith;
+use Tourze\PHPUnitEnum\AbstractEnumTestCase;
 use WechatOfficialAccountCardBundle\Enum\CardStatus;
 
-class CardStatusTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(CardStatus::class)]
+final class CardStatusTest extends AbstractEnumTestCase
 {
-    public function testCardStatusValues(): void
+    #[TestWith([CardStatus::NOT_VERIFY, 'CARD_STATUS_NOT_VERIFY', '待审核'])]
+    #[TestWith([CardStatus::VERIFY_FAIL, 'CARD_STATUS_VERIFY_FAIL', '审核失败'])]
+    #[TestWith([CardStatus::VERIFY_OK, 'CARD_STATUS_VERIFY_OK', '通过审核'])]
+    #[TestWith([CardStatus::DELETE, 'CARD_STATUS_DELETE', '已删除'])]
+    #[TestWith([CardStatus::DISPATCH, 'CARD_STATUS_DISPATCH', '已投放'])]
+    public function testValueAndLabel(CardStatus $enum, string $expectedValue, string $expectedLabel): void
     {
-        // 测试所有枚举值是否有效
-        $this->assertEquals('CARD_STATUS_NOT_VERIFY', CardStatus::NOT_VERIFY->value);
-        $this->assertEquals('CARD_STATUS_VERIFY_FAIL', CardStatus::VERIFY_FAIL->value);
-        $this->assertEquals('CARD_STATUS_VERIFY_OK', CardStatus::VERIFY_OK->value);
-        $this->assertEquals('CARD_STATUS_DELETE', CardStatus::DELETE->value);
-        $this->assertEquals('CARD_STATUS_DISPATCH', CardStatus::DISPATCH->value);
+        $this->assertEquals($expectedValue, $enum->value);
+        $this->assertEquals($expectedLabel, $enum->getLabel());
     }
-    
-    public function testCardStatusInstances(): void
+
+    #[TestWith(['CARD_STATUS_NOT_VERIFY', CardStatus::NOT_VERIFY])]
+    #[TestWith(['CARD_STATUS_VERIFY_FAIL', CardStatus::VERIFY_FAIL])]
+    #[TestWith(['CARD_STATUS_VERIFY_OK', CardStatus::VERIFY_OK])]
+    #[TestWith(['CARD_STATUS_DELETE', CardStatus::DELETE])]
+    #[TestWith(['CARD_STATUS_DISPATCH', CardStatus::DISPATCH])]
+    public function testFromValidValue(string $value, CardStatus $expected): void
     {
-        // 测试枚举实例是否符合预期
-        $this->assertInstanceOf(CardStatus::class, CardStatus::NOT_VERIFY);
-        $this->assertInstanceOf(CardStatus::class, CardStatus::VERIFY_FAIL);
-        $this->assertInstanceOf(CardStatus::class, CardStatus::VERIFY_OK);
-        $this->assertInstanceOf(CardStatus::class, CardStatus::DELETE);
-        $this->assertInstanceOf(CardStatus::class, CardStatus::DISPATCH);
+        $this->assertEquals($expected, CardStatus::from($value));
     }
-    
-    public function testCardStatusEquality(): void
+
+    #[TestWith(['INVALID_STATUS'])]
+    #[TestWith(['CARD_STATUS_INVALID'])]
+    #[TestWith(['NOT_VALID'])]
+    public function testFromInvalidValueThrowsException(string $invalidValue): void
     {
-        // 测试相同枚举值的实例是否相等
-        $this->assertEquals(CardStatus::NOT_VERIFY, CardStatus::NOT_VERIFY);
-        $this->assertEquals(CardStatus::VERIFY_OK, CardStatus::VERIFY_OK);
-        
-        // 测试不同枚举值的实例是否不相等
-        $this->assertNotEquals(CardStatus::NOT_VERIFY, CardStatus::VERIFY_OK);
-        $this->assertNotEquals(CardStatus::VERIFY_FAIL, CardStatus::DISPATCH);
-    }
-    
-    public function testCardStatusFromString(): void
-    {
-        // 测试从字符串创建枚举实例
-        $this->assertEquals(CardStatus::NOT_VERIFY, CardStatus::from('CARD_STATUS_NOT_VERIFY'));
-        $this->assertEquals(CardStatus::VERIFY_FAIL, CardStatus::from('CARD_STATUS_VERIFY_FAIL'));
-        $this->assertEquals(CardStatus::VERIFY_OK, CardStatus::from('CARD_STATUS_VERIFY_OK'));
-        $this->assertEquals(CardStatus::DELETE, CardStatus::from('CARD_STATUS_DELETE'));
-        $this->assertEquals(CardStatus::DISPATCH, CardStatus::from('CARD_STATUS_DISPATCH'));
-        
-        // 测试无效字符串应抛出异常
         $this->expectException(\ValueError::class);
-        CardStatus::from('INVALID_STATUS');
+        CardStatus::from($invalidValue);
     }
-    
-    public function testCardStatusTryFrom(): void
+
+    #[TestWith(['CARD_STATUS_NOT_VERIFY', CardStatus::NOT_VERIFY])]
+    #[TestWith(['CARD_STATUS_VERIFY_OK', CardStatus::VERIFY_OK])]
+    #[TestWith(['CARD_STATUS_DISPATCH', CardStatus::DISPATCH])]
+    public function testTryFromValidValue(string $value, CardStatus $expected): void
     {
-        // 测试从字符串尝试创建枚举实例
-        $this->assertEquals(CardStatus::NOT_VERIFY, CardStatus::tryFrom('CARD_STATUS_NOT_VERIFY'));
-        $this->assertEquals(CardStatus::VERIFY_OK, CardStatus::tryFrom('CARD_STATUS_VERIFY_OK'));
-        
-        // 测试无效字符串应返回null
-        $this->assertNull(CardStatus::tryFrom('INVALID_STATUS'));
+        $this->assertEquals($expected, CardStatus::tryFrom($value));
     }
-    
-    public function testCardStatusNames(): void
+
+    #[TestWith(['INVALID_STATUS'])]
+    #[TestWith(['CARD_STATUS_INVALID'])]
+    #[TestWith(['NOT_VALID'])]
+    public function testTryFromInvalidValueReturnsNull(string $invalidValue): void
     {
-        // 测试枚举名称
-        $this->assertEquals('NOT_VERIFY', CardStatus::NOT_VERIFY->name);
-        $this->assertEquals('VERIFY_FAIL', CardStatus::VERIFY_FAIL->name);
-        $this->assertEquals('VERIFY_OK', CardStatus::VERIFY_OK->name);
-        $this->assertEquals('DELETE', CardStatus::DELETE->name);
-        $this->assertEquals('DISPATCH', CardStatus::DISPATCH->name);
+        $this->assertNull(CardStatus::tryFrom($invalidValue));
     }
-    
-    public function testCardStatusCases(): void
+
+    public function testValueUniqueness(): void
     {
-        // 测试所有枚举用例
-        $cases = CardStatus::cases();
-        
-        $this->assertCount(5, $cases);
-        $this->assertContainsOnlyInstancesOf(CardStatus::class, $cases);
-        
-        // 验证是否包含所有枚举值
-        $this->assertContains(CardStatus::NOT_VERIFY, $cases);
-        $this->assertContains(CardStatus::VERIFY_FAIL, $cases);
-        $this->assertContains(CardStatus::VERIFY_OK, $cases);
-        $this->assertContains(CardStatus::DELETE, $cases);
-        $this->assertContains(CardStatus::DISPATCH, $cases);
+        $values = array_map(fn (CardStatus $case) => $case->value, CardStatus::cases());
+        $this->assertCount(count(array_unique($values)), $values, 'All enum values must be unique');
     }
-} 
+
+    public function testLabelUniqueness(): void
+    {
+        $labels = array_map(fn (CardStatus $case) => $case->getLabel(), CardStatus::cases());
+        $uniqueLabels = array_unique($labels);
+        $this->assertCount(count($uniqueLabels), $labels, 'All enum labels must be unique');
+    }
+
+    public function testCasesCount(): void
+    {
+        $this->assertCount(5, CardStatus::cases());
+    }
+
+    public function testToArray(): void
+    {
+        $result = CardStatus::NOT_VERIFY->toArray();
+
+        $this->assertArrayHasKey('value', $result);
+        $this->assertArrayHasKey('label', $result);
+        $this->assertEquals('CARD_STATUS_NOT_VERIFY', $result['value']);
+        $this->assertEquals('待审核', $result['label']);
+    }
+}

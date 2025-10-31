@@ -31,6 +31,9 @@ class GetMemberCardDetailRequest extends WithAccountRequest
         return 'https://api.weixin.qq.com/datacube/getcardmembercarddetail';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         return [

@@ -29,6 +29,9 @@ class ImportCodeRequest extends WithAccountRequest
         return 'https://api.weixin.qq.com/card/code/deposit';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         return [

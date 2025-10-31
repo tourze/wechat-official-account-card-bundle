@@ -2,95 +2,85 @@
 
 namespace WechatOfficialAccountCardBundle\Tests\Enum;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\TestWith;
+use Tourze\PHPUnitEnum\AbstractEnumTestCase;
 use WechatOfficialAccountCardBundle\Enum\DateType;
 
-class DateTypeTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(DateType::class)]
+final class DateTypeTest extends AbstractEnumTestCase
 {
-    public function testDateTypeValues(): void
+    #[TestWith([DateType::DATE_TYPE_FIX_TIME_RANGE, 'DATE_TYPE_FIX_TIME_RANGE', '固定日期区间'])]
+    #[TestWith([DateType::DATE_TYPE_FIX_TERM, 'DATE_TYPE_FIX_TERM', '固定时长（自领取后按天算）'])]
+    #[TestWith([DateType::DATE_TYPE_PERMANENT, 'DATE_TYPE_PERMANENT', '永久有效'])]
+    public function testValueAndLabel(DateType $enum, string $expectedValue, string $expectedLabel): void
     {
-        // 测试所有枚举值是否有效
-        $this->assertEquals('DATE_TYPE_FIX_TIME_RANGE', DateType::DATE_TYPE_FIX_TIME_RANGE->value);
-        $this->assertEquals('DATE_TYPE_FIX_TERM', DateType::DATE_TYPE_FIX_TERM->value);
-        $this->assertEquals('DATE_TYPE_PERMANENT', DateType::DATE_TYPE_PERMANENT->value);
+        $this->assertEquals($expectedValue, $enum->value);
+        $this->assertEquals($expectedLabel, $enum->getLabel());
     }
-    
-    public function testDateTypeInstances(): void
+
+    #[TestWith(['DATE_TYPE_FIX_TIME_RANGE', DateType::DATE_TYPE_FIX_TIME_RANGE])]
+    #[TestWith(['DATE_TYPE_FIX_TERM', DateType::DATE_TYPE_FIX_TERM])]
+    #[TestWith(['DATE_TYPE_PERMANENT', DateType::DATE_TYPE_PERMANENT])]
+    public function testFromValidValue(string $value, DateType $expected): void
     {
-        // 测试枚举实例是否符合预期
-        $this->assertInstanceOf(DateType::class, DateType::DATE_TYPE_FIX_TIME_RANGE);
-        $this->assertInstanceOf(DateType::class, DateType::DATE_TYPE_FIX_TERM);
-        $this->assertInstanceOf(DateType::class, DateType::DATE_TYPE_PERMANENT);
+        $this->assertEquals($expected, DateType::from($value));
     }
-    
-    public function testDateTypeEquality(): void
+
+    #[TestWith(['INVALID_DATE_TYPE'])]
+    #[TestWith(['DATE_TYPE_INVALID'])]
+    #[TestWith(['NOT_VALID'])]
+    public function testFromInvalidValueThrowsException(string $invalidValue): void
     {
-        // 测试相同枚举值的实例是否相等
-        $this->assertEquals(DateType::DATE_TYPE_FIX_TIME_RANGE, DateType::DATE_TYPE_FIX_TIME_RANGE);
-        $this->assertEquals(DateType::DATE_TYPE_FIX_TERM, DateType::DATE_TYPE_FIX_TERM);
-        $this->assertEquals(DateType::DATE_TYPE_PERMANENT, DateType::DATE_TYPE_PERMANENT);
-        
-        // 测试不同枚举值的实例是否不相等
-        $this->assertNotEquals(DateType::DATE_TYPE_FIX_TIME_RANGE, DateType::DATE_TYPE_FIX_TERM);
-        $this->assertNotEquals(DateType::DATE_TYPE_FIX_TERM, DateType::DATE_TYPE_PERMANENT);
-        $this->assertNotEquals(DateType::DATE_TYPE_PERMANENT, DateType::DATE_TYPE_FIX_TIME_RANGE);
-    }
-    
-    public function testDateTypeFromString(): void
-    {
-        // 测试从字符串创建枚举实例
-        $this->assertEquals(DateType::DATE_TYPE_FIX_TIME_RANGE, DateType::from('DATE_TYPE_FIX_TIME_RANGE'));
-        $this->assertEquals(DateType::DATE_TYPE_FIX_TERM, DateType::from('DATE_TYPE_FIX_TERM'));
-        $this->assertEquals(DateType::DATE_TYPE_PERMANENT, DateType::from('DATE_TYPE_PERMANENT'));
-        
-        // 测试无效字符串应抛出异常
         $this->expectException(\ValueError::class);
-        DateType::from('INVALID_DATE_TYPE');
+        DateType::from($invalidValue);
     }
-    
-    public function testDateTypeTryFrom(): void
+
+    #[TestWith(['DATE_TYPE_FIX_TIME_RANGE', DateType::DATE_TYPE_FIX_TIME_RANGE])]
+    #[TestWith(['DATE_TYPE_FIX_TERM', DateType::DATE_TYPE_FIX_TERM])]
+    #[TestWith(['DATE_TYPE_PERMANENT', DateType::DATE_TYPE_PERMANENT])]
+    public function testTryFromValidValue(string $value, DateType $expected): void
     {
-        // 测试从字符串尝试创建枚举实例
-        $this->assertEquals(DateType::DATE_TYPE_FIX_TIME_RANGE, DateType::tryFrom('DATE_TYPE_FIX_TIME_RANGE'));
-        $this->assertEquals(DateType::DATE_TYPE_FIX_TERM, DateType::tryFrom('DATE_TYPE_FIX_TERM'));
-        $this->assertEquals(DateType::DATE_TYPE_PERMANENT, DateType::tryFrom('DATE_TYPE_PERMANENT'));
-        
-        // 测试无效字符串应返回null
-        $this->assertNull(DateType::tryFrom('INVALID_DATE_TYPE'));
+        $this->assertEquals($expected, DateType::tryFrom($value));
     }
-    
-    public function testDateTypeNames(): void
+
+    #[TestWith(['INVALID_DATE_TYPE'])]
+    #[TestWith(['DATE_TYPE_INVALID'])]
+    #[TestWith(['NOT_VALID'])]
+    public function testTryFromInvalidValueReturnsNull(string $invalidValue): void
     {
-        // 测试枚举名称
-        $this->assertEquals('DATE_TYPE_FIX_TIME_RANGE', DateType::DATE_TYPE_FIX_TIME_RANGE->name);
-        $this->assertEquals('DATE_TYPE_FIX_TERM', DateType::DATE_TYPE_FIX_TERM->name);
-        $this->assertEquals('DATE_TYPE_PERMANENT', DateType::DATE_TYPE_PERMANENT->name);
+        $this->assertNull(DateType::tryFrom($invalidValue));
     }
-    
-    public function testDateTypeCases(): void
+
+    public function testValueUniqueness(): void
     {
-        // 测试所有枚举用例
-        $cases = DateType::cases();
-        
-        $this->assertCount(3, $cases);
-        $this->assertContainsOnlyInstancesOf(DateType::class, $cases);
-        
-        // 验证是否包含所有枚举值
-        $this->assertContains(DateType::DATE_TYPE_FIX_TIME_RANGE, $cases);
-        $this->assertContains(DateType::DATE_TYPE_FIX_TERM, $cases);
-        $this->assertContains(DateType::DATE_TYPE_PERMANENT, $cases);
+        $values = array_map(fn (DateType $case) => $case->value, DateType::cases());
+        $this->assertCount(count(array_unique($values)), $values, 'All enum values must be unique');
     }
-    
-    public function testDateTypeValidation(): void
+
+    public function testLabelUniqueness(): void
     {
-        // 测试日期类型的使用场景
-        $fixTimeRange = DateType::DATE_TYPE_FIX_TIME_RANGE;
-        $fixTerm = DateType::DATE_TYPE_FIX_TERM;
-        $permanent = DateType::DATE_TYPE_PERMANENT;
-        
-        // 日期类型正确转换为字符串
-        $this->assertEquals('DATE_TYPE_FIX_TIME_RANGE', $fixTimeRange->value);
-        $this->assertEquals('DATE_TYPE_FIX_TERM', $fixTerm->value);
-        $this->assertEquals('DATE_TYPE_PERMANENT', $permanent->value);
+        $labels = array_map(fn (DateType $case) => $case->getLabel(), DateType::cases());
+        $uniqueLabels = array_unique($labels);
+        $this->assertCount(count($uniqueLabels), $labels, 'All enum labels must be unique');
     }
-} 
+
+    public function testCasesCount(): void
+    {
+        $this->assertCount(3, DateType::cases());
+    }
+
+    public function testToArray(): void
+    {
+        $result = DateType::DATE_TYPE_FIX_TIME_RANGE->toArray();
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('value', $result);
+        $this->assertArrayHasKey('label', $result);
+        $this->assertEquals('DATE_TYPE_FIX_TIME_RANGE', $result['value']);
+        $this->assertEquals('固定日期区间', $result['label']);
+    }
+}

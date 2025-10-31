@@ -2,8 +2,8 @@
 
 namespace WechatOfficialAccountCardBundle\Tests\Entity;
 
-use DateTimeImmutable;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Tourze\PHPUnitDoctrineEntity\AbstractEntityTestCase;
 use WechatOfficialAccountBundle\Entity\Account;
 use WechatOfficialAccountCardBundle\Entity\Card;
 use WechatOfficialAccountCardBundle\Entity\Embed\CardBaseInfo;
@@ -14,23 +14,32 @@ use WechatOfficialAccountCardBundle\Enum\CardType;
 use WechatOfficialAccountCardBundle\Enum\CodeType;
 use WechatOfficialAccountCardBundle\Enum\DateType;
 
-class CardTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(Card::class)]
+final class CardTest extends AbstractEntityTestCase
 {
-    private Card $card;
     private Account $account;
+
     private CardBaseInfo $baseInfo;
 
     protected function setUp(): void
     {
         parent::setUp();
-        
-        $this->account = $this->createMock(Account::class);
-        
+        // AbstractEntityTest 没有 onSetUp 方法，所以不需要调用 parent::onSetUp()
+        // 使用Mock对象模拟Account实体
+        // Entity测试中需要Mock关联实体，因为：
+        // 1. Account是具体Entity类，没有对应接口
+        // 2. 需要控制关联对象的行为以便测试
+        // 3. 这是Entity测试的标准做法
+        $this->account = new Account();
+
         $dateInfo = new CardDateInfo();
         $dateInfo->setType(DateType::DATE_TYPE_FIX_TIME_RANGE);
         $dateInfo->setBeginTimestamp(time());
         $dateInfo->setEndTimestamp(time() + 86400 * 30); // 30天后
-        
+
         $this->baseInfo = new CardBaseInfo();
         $this->baseInfo->setLogoUrl('https://example.com/logo.png');
         $this->baseInfo->setBrandName('测试品牌');
@@ -46,19 +55,19 @@ class CardTest extends TestCase
         $this->baseInfo->setCanGiveFriend(true);
         $this->baseInfo->setServicePhone('13800138000');
         $this->baseInfo->setDateInfo($dateInfo);
-        
-        $this->card = new Card();
-        $this->card->setAccount($this->account);
-        $this->card->setCardId('cardId123');
-        $this->card->setCardType(CardType::CASH);
-        $this->card->setStatus(CardStatus::VERIFY_OK);
-        $this->card->setBaseInfo($this->baseInfo);
+
+        $card = new Card();
+        $card->setAccount($this->account);
+        $card->setCardId('cardId123');
+        $card->setCardType(CardType::CASH);
+        $card->setStatus(CardStatus::VERIFY_OK);
+        $card->setBaseInfo($this->baseInfo);
     }
 
     public function testCardInitialState(): void
     {
         $card = new Card();
-        
+
         // 检查初始状态下的默认值
         $this->assertNull($card->getId());
         $this->assertNull($card->getCreatedBy());
@@ -70,100 +79,156 @@ class CardTest extends TestCase
 
     public function testGetterSetterMethods(): void
     {
+        $card = $this->createEntity();
         // 测试 ID
-        $this->assertNull($this->card->getId());
-        
+        $this->assertNull($card->getId());
+
         // 测试 CreatedBy
-        $this->card->setCreatedBy('user1');
-        $this->assertEquals('user1', $this->card->getCreatedBy());
-        
+        $card->setCreatedBy('user1');
+        $this->assertEquals('user1', $card->getCreatedBy());
+
         // 测试 UpdatedBy
-        $this->card->setUpdatedBy('user2');
-        $this->assertEquals('user2', $this->card->getUpdatedBy());
-        
+        $card->setUpdatedBy('user2');
+        $this->assertEquals('user2', $card->getUpdatedBy());
+
         // 测试 Syncing
-        $this->assertFalse($this->card->isSyncing());
-        $this->card->setSyncing(true);
-        $this->assertTrue($this->card->isSyncing());
-        
+        $this->assertFalse($card->isSyncing());
+        $card->setSyncing(true);
+        $this->assertTrue($card->isSyncing());
+
         // 测试 Account
-        $this->assertSame($this->account, $this->card->getAccount());
-        
+        $this->assertInstanceOf(Account::class, $card->getAccount());
+
         // 测试 CardId
-        $this->assertEquals('cardId123', $this->card->getCardId());
-        $this->card->setCardId('newCardId');
-        $this->assertEquals('newCardId', $this->card->getCardId());
-        
+        $card->setCardId('newCardId');
+        $this->assertEquals('newCardId', $card->getCardId());
+
         // 测试 CardType
-        $this->assertEquals(CardType::CASH, $this->card->getCardType());
-        $this->card->setCardType(CardType::DISCOUNT);
-        $this->assertEquals(CardType::DISCOUNT, $this->card->getCardType());
-        
+        $card->setCardType(CardType::DISCOUNT);
+        $this->assertEquals(CardType::DISCOUNT, $card->getCardType());
+
         // 测试 Status
-        $this->assertEquals(CardStatus::VERIFY_OK, $this->card->getStatus());
-        $this->card->setStatus(CardStatus::DISPATCH);
-        $this->assertEquals(CardStatus::DISPATCH, $this->card->getStatus());
-        
+        $card->setStatus(CardStatus::DISPATCH);
+        $this->assertEquals(CardStatus::DISPATCH, $card->getStatus());
+
         // 测试 BaseInfo
-        $this->assertSame($this->baseInfo, $this->card->getBaseInfo());
-        
+        $this->assertInstanceOf(CardBaseInfo::class, $card->getBaseInfo());
+
         // 测试时间
-        $now = new DateTimeImmutable();
-        $this->card->setCreateTime($now);
-        $this->assertEquals($now, $this->card->getCreateTime());
-        
-        $this->card->setUpdateTime($now);
-        $this->assertEquals($now, $this->card->getUpdateTime());
+        $now = new \DateTimeImmutable();
+        $card->setCreateTime($now);
+        $this->assertEquals($now, $card->getCreateTime());
+
+        $card->setUpdateTime($now);
+        $this->assertEquals($now, $card->getUpdateTime());
     }
-    
+
     public function testCardWithNullableFields(): void
     {
         $card = new Card();
-        
+
         // 测试可空字段设置为null
         $card->setCreatedBy(null);
         $this->assertNull($card->getCreatedBy());
-        
+
         $card->setUpdatedBy(null);
         $this->assertNull($card->getUpdatedBy());
-        
+
         $card->setCreateTime(null);
         $this->assertNull($card->getCreateTime());
-        
+
         $card->setUpdateTime(null);
         $this->assertNull($card->getUpdateTime());
     }
-    
+
     public function testCardWithRequiredFields(): void
     {
         $card = new Card();
-        
+
         // 设置必要字段
-        $account = $this->createMock(Account::class);
+        // 使用Mock对象模拟Account实体
+        // Entity测试中需要Mock关联实体，因为：
+        // 1. Account是具体Entity类，没有对应接口
+        // 2. 需要控制关联对象的行为以便测试
+        // 3. 这是Entity测试的标准做法
+        $account = new Account();
         $card->setAccount($account);
         $this->assertSame($account, $card->getAccount());
-        
+
         $card->setCardId('test-card-id');
         $this->assertEquals('test-card-id', $card->getCardId());
-        
+
         $card->setCardType(CardType::GIFT);
         $this->assertEquals(CardType::GIFT, $card->getCardType());
-        
+
         $card->setStatus(CardStatus::NOT_VERIFY);
         $this->assertEquals(CardStatus::NOT_VERIFY, $card->getStatus());
-        
+
         $baseInfo = new CardBaseInfo();
         $card->setBaseInfo($baseInfo);
         $this->assertSame($baseInfo, $card->getBaseInfo());
     }
-    
+
     public function testFluidInterfaces(): void
     {
         $card = new Card();
-        
-        // 测试流畅接口
-        $this->assertSame($card, $card->setCreatedBy('user1'));
-        $this->assertSame($card, $card->setUpdatedBy('user2'));
-        $this->assertSame($card, $card->setSyncing(true));
+
+        // 测试setter方法调用 - 这些方法返回void，不支持链式调用
+        $card->setCreatedBy('user1');
+        $this->assertEquals('user1', $card->getCreatedBy());
+
+        $card->setUpdatedBy('user2');
+        $this->assertEquals('user2', $card->getUpdatedBy());
+
+        $card->setSyncing(true);
+        $this->assertTrue($card->isSyncing());
     }
-} 
+
+    /**
+     * @return iterable<string, array{0: string, 1: mixed}>
+     */
+    public static function propertiesProvider(): iterable
+    {
+        return [
+            'cardId' => ['cardId', 'test_card_id'],
+            'cardType' => ['cardType', CardType::GROUPON],
+            'status' => ['status', CardStatus::VERIFY_OK],
+            'syncing' => ['syncing', true],
+            'createdBy' => ['createdBy', 'test_user'],
+            'updatedBy' => ['updatedBy', 'test_user'],
+            'createTime' => ['createTime', new \DateTimeImmutable()],
+            'updateTime' => ['updateTime', new \DateTimeImmutable()],
+        ];
+    }
+
+    protected function createEntity(): Card
+    {
+        $entity = new Card();
+        // 为必需的Account关联设置Mock对象
+        $account = $this->createMock(Account::class);
+        $entity->setAccount($account);
+
+        // 为必需的baseInfo设置一个基本对象
+        $baseInfo = new CardBaseInfo();
+        $baseInfo->setLogoUrl('https://example.com/logo.png');
+        $baseInfo->setBrandName('Test Brand');
+        $baseInfo->setCodeType(CodeType::CODE_TYPE_TEXT);
+        $baseInfo->setTitle('Test Card');
+        $baseInfo->setColor(CardColor::COLOR_010);
+        $baseInfo->setNotice('Test Notice');
+        $baseInfo->setDescription('Test Description');
+        $baseInfo->setQuantity(100);
+        $baseInfo->setUseLimit(1);
+        $baseInfo->setGetLimit(1);
+
+        $dateInfo = new CardDateInfo();
+        $dateInfo->setType(DateType::DATE_TYPE_FIX_TIME_RANGE);
+        $dateInfo->setBeginTimestamp(time());
+        $dateInfo->setEndTimestamp(time() + 86400);
+        $baseInfo->setDateInfo($dateInfo);
+
+        $entity->setBaseInfo($baseInfo);
+
+        return $entity;
+    }
+}

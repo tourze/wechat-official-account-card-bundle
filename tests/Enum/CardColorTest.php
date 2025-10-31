@@ -2,121 +2,98 @@
 
 namespace WechatOfficialAccountCardBundle\Tests\Enum;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\TestWith;
+use Tourze\PHPUnitEnum\AbstractEnumTestCase;
 use WechatOfficialAccountCardBundle\Enum\CardColor;
 
-class CardColorTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(CardColor::class)]
+final class CardColorTest extends AbstractEnumTestCase
 {
-    public function testCardColorValues(): void
+    #[TestWith([CardColor::COLOR_010, '#63b359', '淡绿色'])]
+    #[TestWith([CardColor::COLOR_020, '#2c9f67', '深绿色'])]
+    #[TestWith([CardColor::COLOR_030, '#509fc9', '浅蓝色'])]
+    #[TestWith([CardColor::COLOR_040, '#5885cf', '蓝色'])]
+    #[TestWith([CardColor::COLOR_050, '#9062c0', '紫色'])]
+    #[TestWith([CardColor::COLOR_060, '#d09a45', '棕色'])]
+    #[TestWith([CardColor::COLOR_070, '#e4b138', '黄色'])]
+    #[TestWith([CardColor::COLOR_080, '#ee903c', '橙色'])]
+    #[TestWith([CardColor::COLOR_081, '#f08500', '橙色'])]
+    #[TestWith([CardColor::COLOR_082, '#a9d92d', '绿色'])]
+    #[TestWith([CardColor::COLOR_090, '#dd6549', '红色'])]
+    #[TestWith([CardColor::COLOR_100, '#cc463d', '深红色'])]
+    #[TestWith([CardColor::COLOR_101, '#cf3e36', '深红色'])]
+    #[TestWith([CardColor::COLOR_102, '#5E6671', '灰色'])]
+    public function testValueAndLabel(CardColor $enum, string $expectedValue, string $expectedLabel): void
     {
-        // 测试所有枚举值是否有效
-        $this->assertEquals('#63b359', CardColor::COLOR_010->value); // 淡绿色
-        $this->assertEquals('#2c9f67', CardColor::COLOR_020->value); // 深绿色
-        $this->assertEquals('#509fc9', CardColor::COLOR_030->value); // 浅蓝色
-        $this->assertEquals('#5885cf', CardColor::COLOR_040->value); // 蓝色
-        $this->assertEquals('#9062c0', CardColor::COLOR_050->value); // 紫色
-        $this->assertEquals('#d09a45', CardColor::COLOR_060->value); // 棕色
-        $this->assertEquals('#e4b138', CardColor::COLOR_070->value); // 黄色
-        $this->assertEquals('#ee903c', CardColor::COLOR_080->value); // 橙色
-        $this->assertEquals('#f08500', CardColor::COLOR_081->value); // 橙色
-        $this->assertEquals('#a9d92d', CardColor::COLOR_082->value); // 绿色
-        $this->assertEquals('#dd6549', CardColor::COLOR_090->value); // 红色
-        $this->assertEquals('#cc463d', CardColor::COLOR_100->value); // 深红色
-        $this->assertEquals('#cf3e36', CardColor::COLOR_101->value); // 深红色
-        $this->assertEquals('#5E6671', CardColor::COLOR_102->value); // 灰色
+        $this->assertEquals($expectedValue, $enum->value);
+        $this->assertEquals($expectedLabel, $enum->getLabel());
     }
-    
-    public function testCardColorInstances(): void
+
+    public function testFromValidValue(): void
     {
-        // 测试枚举实例是否符合预期
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_010);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_020);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_030);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_040);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_050);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_060);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_070);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_080);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_081);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_082);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_090);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_100);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_101);
-        $this->assertInstanceOf(CardColor::class, CardColor::COLOR_102);
-    }
-    
-    public function testCardColorEquality(): void
-    {
-        // 测试相同枚举值的实例是否相等
-        $this->assertEquals(CardColor::COLOR_010, CardColor::COLOR_010);
-        $this->assertEquals(CardColor::COLOR_050, CardColor::COLOR_050);
-        
-        // 测试不同枚举值的实例是否不相等
-        $this->assertNotEquals(CardColor::COLOR_010, CardColor::COLOR_020);
-        $this->assertNotEquals(CardColor::COLOR_080, CardColor::COLOR_081);
-    }
-    
-    public function testCardColorFromString(): void
-    {
-        // 测试从字符串创建枚举实例
         $this->assertEquals(CardColor::COLOR_010, CardColor::from('#63b359'));
         $this->assertEquals(CardColor::COLOR_050, CardColor::from('#9062c0'));
         $this->assertEquals(CardColor::COLOR_102, CardColor::from('#5E6671'));
-        
-        // 测试无效字符串应抛出异常
+    }
+
+    public function testFromInvalidValueThrowsException(): void
+    {
         $this->expectException(\ValueError::class);
         CardColor::from('#000000');
     }
-    
-    public function testCardColorTryFrom(): void
+
+    public function testTryFromValidValue(): void
     {
-        // 测试从字符串尝试创建枚举实例
         $this->assertEquals(CardColor::COLOR_010, CardColor::tryFrom('#63b359'));
         $this->assertEquals(CardColor::COLOR_050, CardColor::tryFrom('#9062c0'));
-        
-        // 测试无效字符串应返回null
+        $this->assertEquals(CardColor::COLOR_102, CardColor::tryFrom('#5E6671'));
+    }
+
+    public function testTryFromInvalidValueReturnsNull(): void
+    {
         $this->assertNull(CardColor::tryFrom('#000000'));
+        $this->assertNull(CardColor::tryFrom('invalid'));
+        $this->assertNull(CardColor::tryFrom('#ff'));
     }
-    
-    public function testCardColorNames(): void
+
+    public function testValueUniqueness(): void
     {
-        // 测试枚举名称
-        $this->assertEquals('COLOR_010', CardColor::COLOR_010->name);
-        $this->assertEquals('COLOR_020', CardColor::COLOR_020->name);
-        $this->assertEquals('COLOR_050', CardColor::COLOR_050->name);
-        $this->assertEquals('COLOR_102', CardColor::COLOR_102->name);
+        $values = array_map(fn (CardColor $case) => $case->value, CardColor::cases());
+        $this->assertCount(count(array_unique($values)), $values, 'All enum values must be unique');
     }
-    
-    public function testCardColorCases(): void
+
+    public function testLabelUniqueness(): void
     {
-        // 测试所有枚举用例
-        $cases = CardColor::cases();
-        
-        $this->assertCount(14, $cases);
-        $this->assertContainsOnlyInstancesOf(CardColor::class, $cases);
-        
-        // 验证是否包含所有枚举值
-        $this->assertContains(CardColor::COLOR_010, $cases);
-        $this->assertContains(CardColor::COLOR_020, $cases);
-        $this->assertContains(CardColor::COLOR_030, $cases);
-        $this->assertContains(CardColor::COLOR_040, $cases);
-        $this->assertContains(CardColor::COLOR_050, $cases);
-        $this->assertContains(CardColor::COLOR_060, $cases);
-        $this->assertContains(CardColor::COLOR_070, $cases);
-        $this->assertContains(CardColor::COLOR_080, $cases);
-        $this->assertContains(CardColor::COLOR_081, $cases);
-        $this->assertContains(CardColor::COLOR_082, $cases);
-        $this->assertContains(CardColor::COLOR_090, $cases);
-        $this->assertContains(CardColor::COLOR_100, $cases);
-        $this->assertContains(CardColor::COLOR_101, $cases);
-        $this->assertContains(CardColor::COLOR_102, $cases);
+        $labels = array_map(fn (CardColor $case) => $case->getLabel(), CardColor::cases());
+        // CardColor has some duplicate labels (橙色, 深红色), this is expected
+        $this->assertCount(14, $labels, 'Should have labels for all enum cases');
+        $uniqueLabels = array_unique($labels);
+        $this->assertCount(12, $uniqueLabels, 'Should have 12 unique labels with 2 duplicates');
     }
-    
-    public function testCardColorValidation(): void
+
+    public function testCasesCount(): void
     {
-        // 测试颜色的格式是否符合预期的16进制颜色格式（#rrggbb）
+        $this->assertCount(14, CardColor::cases());
+    }
+
+    public function testColorValidation(): void
+    {
         foreach (CardColor::cases() as $color) {
             $this->assertMatchesRegularExpression('/#[0-9a-fA-F]{6}/', $color->value);
         }
     }
-} 
+
+    public function testToArray(): void
+    {
+        $result = CardColor::COLOR_010->toArray();
+
+        $this->assertArrayHasKey('value', $result);
+        $this->assertArrayHasKey('label', $result);
+        $this->assertEquals('#63b359', $result['value']);
+        $this->assertEquals('淡绿色', $result['label']);
+    }
+}

@@ -32,6 +32,9 @@ class GetCodeRequest extends WithAccountRequest
         return 'https://api.weixin.qq.com/card/code/get';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         $json = [

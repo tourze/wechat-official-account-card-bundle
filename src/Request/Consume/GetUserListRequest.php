@@ -26,13 +26,16 @@ class GetUserListRequest extends WithAccountRequest
         return 'https://api.weixin.qq.com/card/user/getcardlist';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         $data = [
             'openid' => $this->getOpenId(),
         ];
 
-        if ($this->getCardId() !== null) {
+        if (null !== $this->getCardId()) {
             $data['card_id'] = $this->getCardId();
         }
 

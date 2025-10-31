@@ -15,13 +15,13 @@ class CardBaseInfo
     #[ORM\Column(type: 'string', length: 36, options: ['comment' => '商户名称'])]
     private string $brandName;
 
-    #[ORM\Column(type: 'integer', enumType: CodeType::class, options: ['comment' => '码类型'])]
+    #[ORM\Column(type: 'string', enumType: CodeType::class, options: ['comment' => '码类型'])]
     private CodeType $codeType;
 
     #[ORM\Column(type: 'string', length: 27, options: ['comment' => '卡券名'])]
     private string $title;
 
-    #[ORM\Column(type: 'integer', enumType: CardColor::class, options: ['comment' => '卡券颜色'])]
+    #[ORM\Column(type: 'string', enumType: CardColor::class, options: ['comment' => '卡券颜色'])]
     private CardColor $color;
 
     #[ORM\Column(type: 'string', length: 48, options: ['comment' => '使用提醒'])]
@@ -51,16 +51,19 @@ class CardBaseInfo
     #[ORM\Embedded(class: CardDateInfo::class)]
     private CardDateInfo $dateInfo;
 
+    public function __construct()
+    {
+        $this->dateInfo = new CardDateInfo();
+    }
+
     public function getLogoUrl(): string
     {
         return $this->logoUrl;
     }
 
-    public function setLogoUrl(string $logoUrl): self
+    public function setLogoUrl(string $logoUrl): void
     {
         $this->logoUrl = $logoUrl;
-
-        return $this;
     }
 
     public function getBrandName(): string
@@ -68,11 +71,9 @@ class CardBaseInfo
         return $this->brandName;
     }
 
-    public function setBrandName(string $brandName): self
+    public function setBrandName(string $brandName): void
     {
         $this->brandName = $brandName;
-
-        return $this;
     }
 
     public function getCodeType(): CodeType
@@ -80,11 +81,9 @@ class CardBaseInfo
         return $this->codeType;
     }
 
-    public function setCodeType(CodeType $codeType): self
+    public function setCodeType(CodeType $codeType): void
     {
         $this->codeType = $codeType;
-
-        return $this;
     }
 
     public function getTitle(): string
@@ -92,11 +91,9 @@ class CardBaseInfo
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
     public function getColor(): CardColor
@@ -104,11 +101,9 @@ class CardBaseInfo
         return $this->color;
     }
 
-    public function setColor(CardColor $color): self
+    public function setColor(CardColor $color): void
     {
         $this->color = $color;
-
-        return $this;
     }
 
     public function getNotice(): string
@@ -116,11 +111,9 @@ class CardBaseInfo
         return $this->notice;
     }
 
-    public function setNotice(string $notice): self
+    public function setNotice(string $notice): void
     {
         $this->notice = $notice;
-
-        return $this;
     }
 
     public function getDescription(): string
@@ -128,11 +121,9 @@ class CardBaseInfo
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(string $description): void
     {
         $this->description = $description;
-
-        return $this;
     }
 
     public function getQuantity(): int
@@ -140,11 +131,9 @@ class CardBaseInfo
         return $this->quantity;
     }
 
-    public function setQuantity(int $quantity): self
+    public function setQuantity(int $quantity): void
     {
         $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getUseLimit(): int
@@ -152,11 +141,9 @@ class CardBaseInfo
         return $this->useLimit;
     }
 
-    public function setUseLimit(int $useLimit): self
+    public function setUseLimit(int $useLimit): void
     {
         $this->useLimit = $useLimit;
-
-        return $this;
     }
 
     public function getGetLimit(): int
@@ -164,11 +151,9 @@ class CardBaseInfo
         return $this->getLimit;
     }
 
-    public function setGetLimit(int $getLimit): self
+    public function setGetLimit(int $getLimit): void
     {
         $this->getLimit = $getLimit;
-
-        return $this;
     }
 
     public function isCanShare(): bool
@@ -176,11 +161,9 @@ class CardBaseInfo
         return $this->canShare;
     }
 
-    public function setCanShare(bool $canShare): self
+    public function setCanShare(bool $canShare): void
     {
         $this->canShare = $canShare;
-
-        return $this;
     }
 
     public function isCanGiveFriend(): bool
@@ -188,11 +171,9 @@ class CardBaseInfo
         return $this->canGiveFriend;
     }
 
-    public function setCanGiveFriend(bool $canGiveFriend): self
+    public function setCanGiveFriend(bool $canGiveFriend): void
     {
         $this->canGiveFriend = $canGiveFriend;
-
-        return $this;
     }
 
     public function getServicePhone(): ?string
@@ -200,11 +181,9 @@ class CardBaseInfo
         return $this->servicePhone;
     }
 
-    public function setServicePhone(?string $servicePhone): self
+    public function setServicePhone(?string $servicePhone): void
     {
         $this->servicePhone = $servicePhone;
-
-        return $this;
     }
 
     public function getDateInfo(): CardDateInfo
@@ -212,10 +191,8 @@ class CardBaseInfo
         return $this->dateInfo;
     }
 
-    public function setDateInfo(CardDateInfo $dateInfo): self
+    public function setDateInfo(CardDateInfo $dateInfo): void
     {
         $this->dateInfo = $dateInfo;
-
-        return $this;
     }
 }

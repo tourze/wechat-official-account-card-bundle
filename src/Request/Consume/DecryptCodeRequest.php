@@ -24,6 +24,9 @@ class DecryptCodeRequest extends WithAccountRequest
         return 'https://api.weixin.qq.com/card/code/decrypt';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         return [

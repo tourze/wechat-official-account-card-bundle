@@ -15,6 +15,7 @@ enum LandingPageBannerType: int implements Itemable, Labelable, Selectable
 {
     use ItemTrait;
     use SelectTrait;
+
     /**
      * 主要用于图文消息场景。
      * 用户点击图文消息会打开一个卡券列表页面，展示优惠券和通用优惠券。

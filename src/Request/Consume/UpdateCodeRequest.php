@@ -12,37 +12,40 @@ use WechatOfficialAccountBundle\Request\WithAccountRequest;
 class UpdateCodeRequest extends WithAccountRequest
 {
     /**
-     * @var string 需要改变的code序列号
+     * @var string|null 需要改变的code序列号
      */
-    private string $code;
+    private ?string $code = null;
 
     /**
-     * @var string 卡券ID
+     * @var string|null 卡券ID
      */
-    private string $cardId;
+    private ?string $cardId = null;
 
     /**
-     * @var string 新的卡券code序列号
+     * @var string|null 新的卡券code序列号
      */
-    private string $newCode;
+    private ?string $newCode = null;
 
     public function getRequestPath(): string
     {
         return 'https://api.weixin.qq.com/card/code/update';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         return [
             'json' => [
-                'code' => $this->getCode(),
-                'card_id' => $this->getCardId(),
-                'new_code' => $this->getNewCode(),
+                'code' => $this->getCode() ?? '',
+                'card_id' => $this->getCardId() ?? '',
+                'new_code' => $this->getNewCode() ?? '',
             ],
         ];
     }
 
-    public function getCode(): string
+    public function getCode(): ?string
     {
         return $this->code;
     }
@@ -52,7 +55,7 @@ class UpdateCodeRequest extends WithAccountRequest
         $this->code = $code;
     }
 
-    public function getCardId(): string
+    public function getCardId(): ?string
     {
         return $this->cardId;
     }
@@ -62,7 +65,7 @@ class UpdateCodeRequest extends WithAccountRequest
         $this->cardId = $cardId;
     }
 
-    public function getNewCode(): string
+    public function getNewCode(): ?string
     {
         return $this->newCode;
     }

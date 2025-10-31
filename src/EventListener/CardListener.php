@@ -64,6 +64,9 @@ class CardListener
         }
 
         $response = $this->client->request($createRequest);
+        if (!\is_array($response) || !isset($response['card_id']) || !\is_string($response['card_id'])) {
+            throw new \RuntimeException('Invalid response from WeChat API: missing card_id');
+        }
         $card->setCardId($response['card_id']);
     }
 

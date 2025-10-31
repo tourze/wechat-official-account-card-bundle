@@ -31,6 +31,9 @@ enum CardStateEnum: int implements Labelable, Itemable, Selectable
         };
     }
 
+    /**
+     * @return array<int, string>
+     */
     public static function getList(): array
     {
         return [

@@ -16,6 +16,9 @@ class BatchGetListRequest extends WithAccountRequest
 
     private int $count = 50;
 
+    /**
+     * @var CardStatus[]|null
+     */
     private ?array $statusList = null;
 
     public function getRequestPath(): string
@@ -23,6 +26,9 @@ class BatchGetListRequest extends WithAccountRequest
         return 'card/batchget';
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getRequestOptions(): array
     {
         $options = [
@@ -37,24 +43,21 @@ class BatchGetListRequest extends WithAccountRequest
         return $options;
     }
 
-    public function setOffset(int $offset): self
+    public function setOffset(int $offset): void
     {
         $this->offset = $offset;
-
-        return $this;
     }
 
-    public function setCount(int $count): self
+    public function setCount(int $count): void
     {
         $this->count = $count;
-
-        return $this;
     }
 
-    public function setStatusList(?array $statusList): self
+    /**
+     * @param CardStatus[]|null $statusList
+     */
+    public function setStatusList(?array $statusList): void
     {
         $this->statusList = $statusList;
-
-        return $this;
     }
 }

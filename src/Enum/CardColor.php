@@ -2,16 +2,29 @@
 
 namespace WechatOfficialAccountCardBundle\Enum;
 
+use Tourze\EnumExtra\BadgeInterface;
 use Tourze\EnumExtra\Itemable;
 use Tourze\EnumExtra\ItemTrait;
 use Tourze\EnumExtra\Labelable;
 use Tourze\EnumExtra\Selectable;
 use Tourze\EnumExtra\SelectTrait;
 
-enum CardColor: string implements Itemable, Labelable, Selectable
+enum CardColor: string implements Itemable, Labelable, Selectable, BadgeInterface
 {
     use ItemTrait;
     use SelectTrait;
+
+    // BadgeInterface 常量定义
+    public const SUCCESS = 'success';
+    public const WARNING = 'warning';
+    public const DANGER = 'danger';
+    public const INFO = 'info';
+    public const PRIMARY = 'primary';
+    public const SECONDARY = 'secondary';
+    public const LIGHT = 'light';
+    public const DARK = 'dark';
+    public const OUTLINE = 'outline';
+
     case COLOR_010 = '#63b359';  // 淡绿色
     case COLOR_020 = '#2c9f67';  // 深绿色
     case COLOR_030 = '#509fc9';  // 浅蓝色
@@ -44,6 +57,20 @@ enum CardColor: string implements Itemable, Labelable, Selectable
             self::COLOR_100 => '深红色',
             self::COLOR_101 => '深红色',
             self::COLOR_102 => '灰色',
+        };
+    }
+
+    public function getBadge(): string
+    {
+        return match ($this) {
+            self::COLOR_010, self::COLOR_020, self::COLOR_082 => self::SUCCESS,  // 绿色系
+            self::COLOR_030, self::COLOR_040 => self::PRIMARY,  // 蓝色系
+            self::COLOR_050 => self::INFO,  // 紫色
+            self::COLOR_060 => self::DARK,  // 棕色
+            self::COLOR_070 => self::WARNING,  // 黄色
+            self::COLOR_080, self::COLOR_081 => self::WARNING,  // 橙色
+            self::COLOR_090, self::COLOR_100, self::COLOR_101 => self::DANGER,  // 红色系
+            self::COLOR_102 => self::SECONDARY,  // 灰色
         };
     }
 }

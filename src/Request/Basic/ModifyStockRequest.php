@@ -31,6 +31,9 @@ class ModifyStockRequest extends WithAccountRequest
         return 'https://api.weixin.qq.com/card/modifystock';
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getRequestOptions(): ?array
     {
         $data = [

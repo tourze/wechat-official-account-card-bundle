@@ -51,6 +51,9 @@ class CreateRequest extends WithAccountRequest
         return 'card/create';
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getRequestOptions(): array
     {
         $baseInfo = [
@@ -90,129 +93,93 @@ class CreateRequest extends WithAccountRequest
         ];
     }
 
-    public function setCardType(CardType $cardType): self
+    public function setCardType(CardType $cardType): void
     {
         $this->cardType = $cardType;
-
-        return $this;
     }
 
-    public function setLogoUrl(string $logoUrl): self
+    public function setLogoUrl(string $logoUrl): void
     {
         $this->logoUrl = $logoUrl;
-
-        return $this;
     }
 
-    public function setBrandName(string $brandName): self
+    public function setBrandName(string $brandName): void
     {
         $this->brandName = $brandName;
-
-        return $this;
     }
 
-    public function setCodeType(CodeType $codeType): self
+    public function setCodeType(CodeType $codeType): void
     {
         $this->codeType = $codeType;
-
-        return $this;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
-    public function setColor(CardColor $color): self
+    public function setColor(CardColor $color): void
     {
         $this->color = $color;
-
-        return $this;
     }
 
-    public function setNotice(string $notice): self
+    public function setNotice(string $notice): void
     {
         $this->notice = $notice;
-
-        return $this;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(string $description): void
     {
         $this->description = $description;
-
-        return $this;
     }
 
-    public function setQuantity(int $quantity): self
+    public function setQuantity(int $quantity): void
     {
         $this->quantity = $quantity;
-
-        return $this;
     }
 
-    public function setDateType(DateType $dateType): self
+    public function setDateType(DateType $dateType): void
     {
         $this->dateType = $dateType;
-
-        return $this;
     }
 
-    public function setUseLimit(int $useLimit): self
+    public function setUseLimit(int $useLimit): void
     {
         $this->useLimit = $useLimit;
-
-        return $this;
     }
 
-    public function setGetLimit(int $getLimit): self
+    public function setGetLimit(int $getLimit): void
     {
         $this->getLimit = $getLimit;
-
-        return $this;
     }
 
-    public function setCanShare(bool $canShare): self
+    public function setCanShare(bool $canShare): void
     {
         $this->canShare = $canShare;
-
-        return $this;
     }
 
-    public function setCanGiveFriend(bool $canGiveFriend): self
+    public function setCanGiveFriend(bool $canGiveFriend): void
     {
         $this->canGiveFriend = $canGiveFriend;
-
-        return $this;
     }
 
-    public function setBeginTimestamp(?int $beginTimestamp): self
+    public function setBeginTimestamp(?int $beginTimestamp): void
     {
         $this->beginTimestamp = $beginTimestamp;
-
-        return $this;
     }
 
-    public function setEndTimestamp(?int $endTimestamp): self
+    public function setEndTimestamp(?int $endTimestamp): void
     {
         $this->endTimestamp = $endTimestamp;
-
-        return $this;
     }
 
-    public function setFixedTerm(?int $fixedTerm): self
+    public function setFixedTerm(?int $fixedTerm): void
     {
         $this->fixedTerm = $fixedTerm;
-
-        return $this;
     }
 
-    public function setFixedBeginTerm(?int $fixedBeginTerm): self
+    public function setFixedBeginTerm(?int $fixedBeginTerm): void
     {
         $this->fixedBeginTerm = $fixedBeginTerm;
-
-        return $this;
     }
 }

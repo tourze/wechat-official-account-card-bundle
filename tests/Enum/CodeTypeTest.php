@@ -2,94 +2,91 @@
 
 namespace WechatOfficialAccountCardBundle\Tests\Enum;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\TestWith;
+use Tourze\PHPUnitEnum\AbstractEnumTestCase;
 use WechatOfficialAccountCardBundle\Enum\CodeType;
 
-class CodeTypeTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(CodeType::class)]
+final class CodeTypeTest extends AbstractEnumTestCase
 {
-    public function testCodeTypeValues(): void
+    #[TestWith([CodeType::CODE_TYPE_TEXT, 'CODE_TYPE_TEXT', '文本'])]
+    #[TestWith([CodeType::CODE_TYPE_BARCODE, 'CODE_TYPE_BARCODE', '一维码'])]
+    #[TestWith([CodeType::CODE_TYPE_QRCODE, 'CODE_TYPE_QRCODE', '二维码'])]
+    #[TestWith([CodeType::CODE_TYPE_ONLY_QRCODE, 'CODE_TYPE_ONLY_QRCODE', '仅显示二维码'])]
+    #[TestWith([CodeType::CODE_TYPE_ONLY_BARCODE, 'CODE_TYPE_ONLY_BARCODE', '仅显示一维码'])]
+    #[TestWith([CodeType::CODE_TYPE_NONE, 'CODE_TYPE_NONE', '不显示任何码型'])]
+    public function testValueAndLabel(CodeType $enum, string $expectedValue, string $expectedLabel): void
     {
-        // 测试所有枚举值是否有效
-        $this->assertEquals('CODE_TYPE_TEXT', CodeType::CODE_TYPE_TEXT->value);
-        $this->assertEquals('CODE_TYPE_BARCODE', CodeType::CODE_TYPE_BARCODE->value);
-        $this->assertEquals('CODE_TYPE_QRCODE', CodeType::CODE_TYPE_QRCODE->value);
-        $this->assertEquals('CODE_TYPE_ONLY_QRCODE', CodeType::CODE_TYPE_ONLY_QRCODE->value);
-        $this->assertEquals('CODE_TYPE_ONLY_BARCODE', CodeType::CODE_TYPE_ONLY_BARCODE->value);
-        $this->assertEquals('CODE_TYPE_NONE', CodeType::CODE_TYPE_NONE->value);
+        $this->assertEquals($expectedValue, $enum->value);
+        $this->assertEquals($expectedLabel, $enum->getLabel());
     }
-    
-    public function testCodeTypeInstances(): void
+
+    #[TestWith(['CODE_TYPE_TEXT', CodeType::CODE_TYPE_TEXT])]
+    #[TestWith(['CODE_TYPE_BARCODE', CodeType::CODE_TYPE_BARCODE])]
+    #[TestWith(['CODE_TYPE_QRCODE', CodeType::CODE_TYPE_QRCODE])]
+    #[TestWith(['CODE_TYPE_ONLY_QRCODE', CodeType::CODE_TYPE_ONLY_QRCODE])]
+    #[TestWith(['CODE_TYPE_ONLY_BARCODE', CodeType::CODE_TYPE_ONLY_BARCODE])]
+    #[TestWith(['CODE_TYPE_NONE', CodeType::CODE_TYPE_NONE])]
+    public function testFromValidValue(string $value, CodeType $expected): void
     {
-        // 测试枚举实例是否符合预期
-        $this->assertInstanceOf(CodeType::class, CodeType::CODE_TYPE_TEXT);
-        $this->assertInstanceOf(CodeType::class, CodeType::CODE_TYPE_BARCODE);
-        $this->assertInstanceOf(CodeType::class, CodeType::CODE_TYPE_QRCODE);
-        $this->assertInstanceOf(CodeType::class, CodeType::CODE_TYPE_ONLY_QRCODE);
-        $this->assertInstanceOf(CodeType::class, CodeType::CODE_TYPE_ONLY_BARCODE);
-        $this->assertInstanceOf(CodeType::class, CodeType::CODE_TYPE_NONE);
+        $this->assertEquals($expected, CodeType::from($value));
     }
-    
-    public function testCodeTypeEquality(): void
+
+    #[TestWith(['INVALID_CODE_TYPE'])]
+    #[TestWith(['CODE_TYPE_INVALID'])]
+    #[TestWith(['NOT_VALID'])]
+    public function testFromInvalidValueThrowsException(string $invalidValue): void
     {
-        // 测试相同枚举值的实例是否相等
-        $this->assertEquals(CodeType::CODE_TYPE_TEXT, CodeType::CODE_TYPE_TEXT);
-        $this->assertEquals(CodeType::CODE_TYPE_QRCODE, CodeType::CODE_TYPE_QRCODE);
-        
-        // 测试不同枚举值的实例是否不相等
-        $this->assertNotEquals(CodeType::CODE_TYPE_TEXT, CodeType::CODE_TYPE_BARCODE);
-        $this->assertNotEquals(CodeType::CODE_TYPE_QRCODE, CodeType::CODE_TYPE_ONLY_QRCODE);
-    }
-    
-    public function testCodeTypeFromString(): void
-    {
-        // 测试从字符串创建枚举实例
-        $this->assertEquals(CodeType::CODE_TYPE_TEXT, CodeType::from('CODE_TYPE_TEXT'));
-        $this->assertEquals(CodeType::CODE_TYPE_BARCODE, CodeType::from('CODE_TYPE_BARCODE'));
-        $this->assertEquals(CodeType::CODE_TYPE_QRCODE, CodeType::from('CODE_TYPE_QRCODE'));
-        $this->assertEquals(CodeType::CODE_TYPE_ONLY_QRCODE, CodeType::from('CODE_TYPE_ONLY_QRCODE'));
-        $this->assertEquals(CodeType::CODE_TYPE_ONLY_BARCODE, CodeType::from('CODE_TYPE_ONLY_BARCODE'));
-        $this->assertEquals(CodeType::CODE_TYPE_NONE, CodeType::from('CODE_TYPE_NONE'));
-        
-        // 测试无效字符串应抛出异常
         $this->expectException(\ValueError::class);
-        CodeType::from('INVALID_CODE_TYPE');
+        CodeType::from($invalidValue);
     }
-    
-    public function testCodeTypeTryFrom(): void
+
+    #[TestWith(['CODE_TYPE_TEXT', CodeType::CODE_TYPE_TEXT])]
+    #[TestWith(['CODE_TYPE_QRCODE', CodeType::CODE_TYPE_QRCODE])]
+    #[TestWith(['CODE_TYPE_NONE', CodeType::CODE_TYPE_NONE])]
+    public function testTryFromValidValue(string $value, CodeType $expected): void
     {
-        // 测试从字符串尝试创建枚举实例
-        $this->assertEquals(CodeType::CODE_TYPE_TEXT, CodeType::tryFrom('CODE_TYPE_TEXT'));
-        $this->assertEquals(CodeType::CODE_TYPE_QRCODE, CodeType::tryFrom('CODE_TYPE_QRCODE'));
-        
-        // 测试无效字符串应返回null
-        $this->assertNull(CodeType::tryFrom('INVALID_CODE_TYPE'));
+        $this->assertEquals($expected, CodeType::tryFrom($value));
     }
-    
-    public function testCodeTypeNames(): void
+
+    #[TestWith(['INVALID_CODE_TYPE'])]
+    #[TestWith(['CODE_TYPE_INVALID'])]
+    #[TestWith(['NOT_VALID'])]
+    public function testTryFromInvalidValueReturnsNull(string $invalidValue): void
     {
-        // 测试枚举名称
-        $this->assertEquals('CODE_TYPE_TEXT', CodeType::CODE_TYPE_TEXT->name);
-        $this->assertEquals('CODE_TYPE_BARCODE', CodeType::CODE_TYPE_BARCODE->name);
-        $this->assertEquals('CODE_TYPE_QRCODE', CodeType::CODE_TYPE_QRCODE->name);
-        $this->assertEquals('CODE_TYPE_ONLY_QRCODE', CodeType::CODE_TYPE_ONLY_QRCODE->name);
-        $this->assertEquals('CODE_TYPE_ONLY_BARCODE', CodeType::CODE_TYPE_ONLY_BARCODE->name);
-        $this->assertEquals('CODE_TYPE_NONE', CodeType::CODE_TYPE_NONE->name);
+        $this->assertNull(CodeType::tryFrom($invalidValue));
     }
-    
-    public function testCodeTypeCases(): void
+
+    public function testValueUniqueness(): void
     {
-        // 测试所有枚举用例
-        $cases = CodeType::cases();
-        
-        $this->assertCount(6, $cases);
-        $this->assertContainsOnlyInstancesOf(CodeType::class, $cases);
-        
-        // 验证是否包含所有枚举值
-        $this->assertContains(CodeType::CODE_TYPE_TEXT, $cases);
-        $this->assertContains(CodeType::CODE_TYPE_BARCODE, $cases);
-        $this->assertContains(CodeType::CODE_TYPE_QRCODE, $cases);
-        $this->assertContains(CodeType::CODE_TYPE_ONLY_QRCODE, $cases);
-        $this->assertContains(CodeType::CODE_TYPE_ONLY_BARCODE, $cases);
-        $this->assertContains(CodeType::CODE_TYPE_NONE, $cases);
+        $values = array_map(fn (CodeType $case) => $case->value, CodeType::cases());
+        $this->assertCount(count(array_unique($values)), $values, 'All enum values must be unique');
     }
-} 
+
+    public function testLabelUniqueness(): void
+    {
+        $labels = array_map(fn (CodeType $case) => $case->getLabel(), CodeType::cases());
+        $uniqueLabels = array_unique($labels);
+        $this->assertCount(count($uniqueLabels), $labels, 'All enum labels must be unique');
+    }
+
+    public function testCasesCount(): void
+    {
+        $this->assertCount(6, CodeType::cases());
+    }
+
+    public function testToArray(): void
+    {
+        $result = CodeType::CODE_TYPE_TEXT->toArray();
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('value', $result);
+        $this->assertArrayHasKey('label', $result);
+        $this->assertEquals('CODE_TYPE_TEXT', $result['value']);
+        $this->assertEquals('文本', $result['label']);
+    }
+}

@@ -1,0 +1,9 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # DataFixtures 仅在 test 环境中使用
+  WechatOfficialAccountCardBundle\DataFixtures\:
+    resource: '../../DataFixtures'
+    tags: ['doctrine.fixture.orm']
