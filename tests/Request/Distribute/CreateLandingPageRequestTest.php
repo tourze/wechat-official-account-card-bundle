@@ -2,8 +2,8 @@
 
 namespace WechatOfficialAccountCardBundle\Tests\Request\Distribute;
 
+use HttpClientBundle\Test\RequestTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use HttpClientBundle\Tests\Request\RequestTestCase;
 use WechatOfficialAccountBundle\Request\WithAccountRequest;
 use WechatOfficialAccountCardBundle\Enum\LandingPageBannerType;
 use WechatOfficialAccountCardBundle\Request\Distribute\CreateLandingPageRequest;

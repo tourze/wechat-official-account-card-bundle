@@ -2,8 +2,8 @@
 
 namespace WechatOfficialAccountCardBundle\Tests\Request\Stats;
 
+use HttpClientBundle\Test\RequestTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use HttpClientBundle\Tests\Request\RequestTestCase;
 use WechatOfficialAccountBundle\Request\WithAccountRequest;
 use WechatOfficialAccountCardBundle\Enum\CardCondSource;
 use WechatOfficialAccountCardBundle\Request\Stats\GetMemberCardInfoRequest;

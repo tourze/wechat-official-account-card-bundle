@@ -2,8 +2,8 @@
 
 namespace WechatOfficialAccountCardBundle\Tests\Request\Consume;
 
+use HttpClientBundle\Test\RequestTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
-use HttpClientBundle\Tests\Request\RequestTestCase;
 use WechatOfficialAccountBundle\Entity\Account;
 use WechatOfficialAccountCardBundle\Request\Consume\ConsumeRequest;
 
