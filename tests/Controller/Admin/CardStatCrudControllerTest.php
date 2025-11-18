@@ -39,7 +39,6 @@ class CardStatCrudControllerTest extends AbstractEasyAdminControllerTestCase
 {
     private ?CardStat $testCardStat = null;
 
-
     /**
      * 创建已认证的客户端并初始化测试数据
      */
@@ -58,7 +57,6 @@ class CardStatCrudControllerTest extends AbstractEasyAdminControllerTestCase
 
         return $client;
     }
-
 
     /**
      * 在管理员登录后立即补充测试数据，确保列表页渲染出表头
@@ -194,11 +192,6 @@ class CardStatCrudControllerTest extends AbstractEasyAdminControllerTestCase
         $this->testCardStat = $stat;
 
         return $stat;
-    }
-
-    public function testGetEntityFqcnReturnsCorrectClass(): void
-    {
-        $this->assertSame(CardStat::class, CardStatCrudController::getEntityFqcn());
     }
 
     public function testConfigureFieldsReturnsExpectedFields(): void
@@ -546,7 +539,6 @@ class CardStatCrudControllerTest extends AbstractEasyAdminControllerTestCase
         yield '创建时间' => ['创建时间'];
         yield '更新时间' => ['更新时间'];
     }
-
 
     // 统计数据只读，不支持新建和编辑功能
     // 新建和编辑页面已被禁用

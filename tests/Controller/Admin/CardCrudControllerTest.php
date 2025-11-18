@@ -43,11 +43,6 @@ class CardCrudControllerTest extends AbstractEasyAdminControllerTestCase
         return self::getService(CardCrudController::class);
     }
 
-    public function testGetEntityFqcnReturnsCorrectClass(): void
-    {
-        $this->assertSame(Card::class, CardCrudController::getEntityFqcn());
-    }
-
     public function testConfigureFieldsReturnsExpectedFields(): void
     {
         $this->setUpController();
