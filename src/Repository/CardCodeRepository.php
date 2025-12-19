@@ -11,7 +11,7 @@ use WechatOfficialAccountCardBundle\Entity\CardCode;
  * @extends ServiceEntityRepository<CardCode>
  */
 #[AsRepository(entityClass: CardCode::class)]
-class CardCodeRepository extends ServiceEntityRepository
+final class CardCodeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

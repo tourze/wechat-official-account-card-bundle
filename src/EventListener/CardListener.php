@@ -17,7 +17,7 @@ use WechatOfficialAccountCardBundle\Request\Basic\UpdateRequest;
 #[AsEntityListener(event: Events::postPersist, method: 'postPersist', entity: Card::class)]
 #[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: Card::class)]
 #[AsEntityListener(event: Events::postUpdate, method: 'postUpdate', entity: Card::class)]
-class CardListener
+final class CardListener
 {
     public function __construct(
         private readonly OfficialAccountClient $client,

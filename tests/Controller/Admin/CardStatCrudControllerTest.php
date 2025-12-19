@@ -510,13 +510,14 @@ class CardStatCrudControllerTest extends AbstractEasyAdminControllerTestCase
     /**
      * @return \Generator<string, array{string}>
      *
-     * 注意：基类的 testIndexPageShowsConfiguredColumns 测试会失败，因为它在调用
+     * 注意：基类的 testIndexPageShowsConfiguredColumns 测试在 CardStat 场景下会失败，因为它在调用
      * createAuthenticatedClient() 后清理了数据库，而我们无法在测试运行期间重新创建数据。
      *
      * 我们改用自己的 testIndexPageShowsCorrectColumns 方法，它使用 createTestClient()
      * 在数据库清理后立即创建测试数据。
      *
-     * 这里提供的数据集主要是为了让基类能够验证字段配置的一致性。
+     * 这里必须提供数据以满足基类的 testIndexPageHeadersProviderHasData 测试，
+     * 即使 testIndexPageShowsConfiguredColumns 可能会失败。
      */
     public static function provideIndexPageHeaders(): \Generator
     {
@@ -526,13 +527,13 @@ class CardStatCrudControllerTest extends AbstractEasyAdminControllerTestCase
         // 2. 基类测试会清理数据库，导致没有数据显示
         // 3. EasyAdmin 在没有数据时不显示表格头，导致测试失败
         //
+        // 但是基类强制要求 provideIndexPageHeaders 不能为空，
+        // 并且必须与 configureFields('index') 返回的字段匹配。
+        //
         // 解决方案：我们提供了自定义的 testIndexPageShowsCorrectColumns 方法，
         // 它使用 createTestClient() 确保有测试数据。
-        //
-        // 为了避免基类测试干扰，这里返回空的数据集跳过基类测试。
-        // 自定义测试已经覆盖了相同的测试场景。
 
-        // 提供正常的数据，测试会失败，但我们有自定义的测试覆盖相同功能
+        // INDEX页面的字段标签（与 configureFields 中的 PAGE_INDEX 配置匹配）
         yield 'ID' => ['ID'];
         yield '关联卡券' => ['关联卡券'];
         yield '统计日期' => ['统计日期'];

@@ -25,7 +25,7 @@ use WechatOfficialAccountCardBundle\Request\Basic\GetDetailRequest;
     description: '同步微信卡券信息',
 )]
 #[Autoconfigure(public: true)]
-class SyncCardCommand extends Command
+final class SyncCardCommand extends Command
 {
     public const NAME = 'wechat:card:sync';
 

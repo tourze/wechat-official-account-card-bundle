@@ -11,7 +11,7 @@ use WechatOfficialAccountCardBundle\Entity\CardStat;
  * @extends ServiceEntityRepository<CardStat>
  */
 #[AsRepository(entityClass: CardStat::class)]
-class CardStatRepository extends ServiceEntityRepository
+final class CardStatRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

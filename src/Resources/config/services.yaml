@@ -5,13 +5,15 @@ services:
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
     public: false
 
-  WechatOfficialAccountCardBundle\Command\:
-    resource: '../../Command/'
   WechatOfficialAccountCardBundle\Controller\:
     resource: '../../Controller/'
-  WechatOfficialAccountCardBundle\EventListener\:
-    resource: '../../EventListener/'
   WechatOfficialAccountCardBundle\Repository\:
     resource: '../../Repository/'
   WechatOfficialAccountCardBundle\Service\:
     resource: '../../Service/'
+    public: true
+  WechatOfficialAccountCardBundle\EventListener\:
+    resource: '../../EventListener/'
+    public: true
+  WechatOfficialAccountCardBundle\Command\:
+    resource: '../../Command/'

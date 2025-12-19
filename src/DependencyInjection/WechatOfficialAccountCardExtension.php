@@ -6,7 +6,7 @@ namespace WechatOfficialAccountCardBundle\DependencyInjection;
 
 use Tourze\SymfonyDependencyServiceLoader\AutoExtension;
 
-class WechatOfficialAccountCardExtension extends AutoExtension
+final class WechatOfficialAccountCardExtension extends AutoExtension
 {
     protected function getConfigDir(): string
     {
